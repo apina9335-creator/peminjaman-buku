@@ -102,7 +102,6 @@
         .btn-borrow.available { background: linear-gradient(135deg, var(--success) 0%, #059669 100%); }
         .btn-borrow.unavailable { background: var(--gray-200); color: var(--text-muted); cursor: not-allowed; }
         
-        /* Tombol Spoiler Baru */
         .btn-spoiler { width: 100%; padding: 0.5rem; border: 1.5px solid var(--primary); border-radius: 0.5rem; color: var(--primary); background: transparent; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 0.85rem; text-align: center; display: block; margin-top: 10px; }
         .btn-spoiler:hover { background: var(--primary-light); }
 
@@ -113,7 +112,6 @@
         .modal-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-main); }
         .modal-subtitle { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
         
-        /* CSS Khusus Untuk Area Teks Spoiler */
         .spoiler-text-area { background: var(--gray-100); padding: 1.5rem; border-radius: 1rem; border: 1px solid var(--gray-200); max-height: 350px; overflow-y: auto; font-size: 0.95rem; line-height: 1.7; white-space: pre-wrap; color: var(--text-main); margin-bottom: 1.5rem; text-align: justify; }
 
         .form-label { display: block; margin-bottom: 0.5rem; color: var(--text-main); font-weight: 600; font-size: 0.9rem; }
@@ -166,8 +164,10 @@
                             <p>{{ Auth::user()->email }}</p>
                         </div>
                     </a>
-                    <form action="/logout" method="POST" style="margin: 0;">
-                        @csrf <button type="submit" class="logout-btn">Logout</button>
+
+                    <form action="{{ route('logout') }}" method="POST" style="margin: 0;">
+                        @csrf 
+                        <button type="submit" class="logout-btn">Logout</button>
                     </form>
                 </div>
             </div>
@@ -261,10 +261,8 @@
                             </span>
                         </form>
 
-                        {{-- DATA SPOILER DISEMBUNYIKAN UNTUK DIAMBIL OLEH JS NANTI --}}
                         <div id="spoiler-data-{{ $book['id'] }}" style="display: none;">{{ $book['spoiler'] ?? '' }}</div>
 
-                        {{-- TOMBOL BACA CUPLIKAN (Hanya muncul jika admin sudah mengisi spoiler) --}}
                         @if(!empty($book['spoiler']))
                             <button onclick="openSpoilerModal('{{ $book['id'] }}', '{{ addslashes($book['title']) }}')" class="btn-spoiler">
                                 👀 Baca Cuplikan
@@ -293,8 +291,7 @@
             <h2 class="modal-title">👀 Cuplikan Bacaan</h2>
             <p id="spoilerBookTitle" class="modal-subtitle" style="font-weight: bold; color: var(--primary);">Judul Buku</p>
             
-            <div id="spoilerText" class="spoiler-text-area">
-                </div>
+            <div id="spoilerText" class="spoiler-text-area"></div>
 
             <div class="modal-actions">
                 <button type="button" onclick="closeSpoilerModal()" class="btn btn-cancel" style="width: 100%;">Tutup</button>
@@ -379,7 +376,6 @@
         const reviewModal = document.getElementById('reviewModal');
         const spoilerModal = document.getElementById('spoilerModal');
         
-        // Modal Pinjam
         function openModal(id, title) {
             document.getElementById('modalBookId').value = id;
             document.getElementById('modalBookTitle').innerText = 'Meminjam: ' + title;
@@ -387,7 +383,6 @@
         }
         function closeModal() { modal.classList.remove('active'); }
         
-        // Modal Ulasan
         function openReviewModal(id, title) {
             document.getElementById('reviewBookId').value = id;
             document.getElementById('reviewBookTitle').innerText = 'Mengulas: ' + title;
@@ -395,7 +390,6 @@
         }
         function closeReviewModal() { reviewModal.classList.remove('active'); }
 
-        // Modal Spoiler
         function openSpoilerModal(id, title) {
             let spoilerText = document.getElementById('spoiler-data-' + id).innerText;
             document.getElementById('spoilerBookTitle').innerText = title;
@@ -404,14 +398,12 @@
         }
         function closeSpoilerModal() { spoilerModal.classList.remove('active'); }
 
-        // Menutup modal jika klik di luar kotak
         window.onclick = function(e) {
             if (e.target == modal) closeModal();
             if (e.target == reviewModal) closeReviewModal();
             if (e.target == spoilerModal) closeSpoilerModal();
         }
 
-        // Pencarian
         const searchInput = document.getElementById('searchInput');
         const categoryFilter = document.getElementById('categoryFilter');
         const bookCards = document.querySelectorAll('.book-card');

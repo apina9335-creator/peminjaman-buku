@@ -11,28 +11,37 @@ class BookCollectionController extends Controller
     /**
      * Menampilkan koleksi buku dari database.
      */
-   public function index(): View
-{
-    $user = Auth::user();
+    public function index(): View
+    {
+        $user = Auth::user();
 
-    // Ambil buku beserta rata-rata rating dan jumlah review
-    $books = Book::withAvg('reviews', 'rating') // Menghasilkan kolom reviews_avg_rating
-                 ->withCount('reviews')         // Menghasilkan kolom reviews_count
-                 ->get()
-                 ->map(function ($book) {
-                     return [
-                         'id' => $book->id,
-                         'title' => $book->title,
-                         'author' => $book->author,
-                         'category' => $book->category ?? 'Umum',
-                         'cover_image' => $book->cover_image, 
-                         'available' => $book->stock > 0,
-                         // Gunakan data asli (jika null, default ke 0)
-                         'reviews' => $book->reviews_count, 
-                         'rating' => round($book->reviews_avg_rating, 1) ?: 0, 
-                     ];
-                 });
+        // Ambil buku beserta rata-rata rating dan jumlah review
+        $books = Book::withAvg('reviews', 'rating') // Menghasilkan kolom reviews_avg_rating
+                     ->withCount('reviews')         // Menghasilkan kolom reviews_count
+                     ->get()
+                     ->map(function ($book) {
+                         return [
+                             'id' => $book->id,
+                             'title' => $book->title,
+                             'author' => $book->author,
+                             'category' => $book->category ?? 'Umum',
+                             'cover_image' => $book->cover_image, 
+                             'available' => $book->stock > 0,
+                             
+                             // ==========================================
+                             // BAGIAN YANG DITAMBAHKAN AGAR MUNCUL DI WEB
+                             // ==========================================
+                             'stock' => $book->stock,
+                             'description' => $book->description,
+                             'spoiler' => $book->spoiler, 
+                             // ==========================================
 
-    return view('koleksi-buku', compact('user', 'books'));
-}
+                             // Gunakan data asli (jika null, default ke 0)
+                             'reviews' => $book->reviews_count, 
+                             'rating' => round($book->reviews_avg_rating, 1) ?: 0, 
+                         ];
+                     });
+
+        return view('koleksi-buku', compact('user', 'books'));
+    }
 }
