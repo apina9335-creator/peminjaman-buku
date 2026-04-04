@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700&display=swap" rel="stylesheet" />
     <style>
-        /* === KONFIGURASI WARNA (Dark/Light Mode) === */
+        /* === KONFIGURASI WARNA === */
         :root {
             --bg-body: linear-gradient(135deg, #f0f9ff 0%, #f5f3ff 100%);
             --bg-card: #ffffff;
@@ -45,11 +45,9 @@
             --gray-300: #475569;
         }
 
-        /* === STYLE DASAR === */
         * { margin: 0; padding: 0; box-sizing: border-box; transition: background-color 0.3s, color 0.3s, border-color 0.3s; }
         body { font-family: 'Instrument Sans', sans-serif; background: var(--bg-body); color: var(--text-main); line-height: 1.6; display: flex; }
         
-        /* SIDEBAR */
         .sidebar { width: 280px; background: var(--bg-sidebar); color: white; padding: 2rem 1.5rem; position: fixed; height: 100vh; z-index: 100; box-shadow: 4px 0 15px rgba(0,0,0,0.15); }
         .sidebar-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 3rem; font-size: 1.5rem; font-weight: 700; }
         .sidebar-logo { width: 2.8rem; height: 2.8rem; background: rgba(255,255,255,0.25); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; }
@@ -58,10 +56,8 @@
         .sidebar-menu a { display: flex; align-items: center; gap: 1rem; color: rgba(255,255,255,0.85); text-decoration: none; padding: 0.85rem 1rem; border-radius: 0.75rem; font-weight: 500; transition: 0.3s; }
         .sidebar-menu a:hover, .sidebar-menu a.active { background: rgba(255,255,255,0.2); color: white; transform: translateX(4px); }
         
-        /* KONTEN UTAMA */
         .main-content { flex: 1; margin-left: 280px; padding: 2rem 3rem; min-height: 100vh; }
         
-        /* PERBAIKAN: Top Bar & Profil User agar tidak gepeng */
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
         .back-btn { text-decoration: none; color: var(--text-main); font-weight: 600; display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: var(--bg-card); border-radius: 2rem; box-shadow: 0 2px 10px var(--shadow); transition: 0.2s; border: 1px solid var(--border-color); white-space: nowrap; }
         .back-btn:hover { background: var(--gray-100); transform: translateX(-3px); }
@@ -70,37 +66,30 @@
         .avatar-small { width: 35px; height: 35px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem; flex-shrink: 0; }
         .user-name-text { color: var(--text-main); font-weight: 700; font-size: 0.95rem; white-space: nowrap; }
 
-        /* CARD & GRID UTAMA */
         .card { background: var(--bg-card); padding: 2.5rem; border-radius: 1.5rem; box-shadow: 0 4px 20px var(--shadow); margin-bottom: 3rem; border: 1px solid var(--border-color); }
         .detail-grid { display: grid; grid-template-columns: 320px 1fr; gap: 3.5rem; align-items: start; }
         
-        /* COVER BUKU */
         .book-cover { width: 100%; height: 480px; border-radius: 1.2rem; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; font-size: 6rem; color: white; font-weight: 700; overflow: hidden; box-shadow: 0 10px 30px var(--shadow); }
         .book-cover img { width: 100%; height: 100%; object-fit: cover; }
         
-        /* INFO BUKU */
         .badge { display: inline-block; background: var(--primary-light); color: var(--primary); padding: 0.4rem 1.2rem; border-radius: 2rem; font-size: 0.85rem; font-weight: 700; margin-bottom: 1.2rem; border: 1px solid rgba(59, 130, 246, 0.2); }
         .book-title { font-size: 2.8rem; margin-bottom: 0.8rem; line-height: 1.15; color: var(--text-main); font-weight: 800; }
         .book-author { font-size: 1.15rem; color: var(--text-muted); margin-bottom: 2rem; }
         
-        /* STATISTIK BUKU */
         .stats-box { display: flex; gap: 3rem; margin-bottom: 2.5rem; padding: 1.5rem 2rem; background: var(--gray-100); border-radius: 1.2rem; border: 1px solid var(--border-color); flex-wrap: wrap; }
         .stats-item { display: flex; flex-direction: column; gap: 0.3rem; }
         .stats-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
         .stats-value { font-size: 1.4rem; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem; }
         
-        /* TOMBOL PINJAM */
         .btn { display: block; width: 100%; text-align: center; padding: 1.1rem; border-radius: 1rem; font-weight: 700; text-decoration: none; transition: 0.3s; border: none; cursor: pointer; font-size: 1.05rem; }
         .btn-primary { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; margin-top: 2rem; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); }
         .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5); }
         
-        /* SINOPSIS & SPOILER */
         .section-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-main); }
         .sinopsis-text { line-height: 1.8; color: var(--text-main); margin-bottom: 2rem; text-align: justify; font-size: 1.05rem; }
         .spoiler-box { background: rgba(245, 158, 11, 0.1); border-left: 4px solid var(--warning); padding: 1.5rem; border-radius: 0 1rem 1rem 0; margin-top: 2rem; }
         .spoiler-box h4 { color: #d97706; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; }
         
-        /* REKOMENDASI PINTAR */
         .recom-header { margin-bottom: 1.5rem; margin-top: 1rem; color: var(--text-main); font-size: 1.5rem; font-weight: 700; }
         .recom-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.8rem; margin-bottom: 3rem; }
         .recom-card { background: var(--bg-card); border-radius: 1.2rem; overflow: hidden; box-shadow: 0 4px 15px var(--shadow); transition: 0.3s; text-decoration: none; color: var(--text-main); border: 1px solid var(--border-color); display: flex; flex-direction: column; }
@@ -116,8 +105,6 @@
         .review-header { display: flex; justify-content: space-between; margin-bottom: 0.8rem; align-items: center; }
         .reviewer-name { font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem; }
         .review-text { color: var(--text-main); line-height: 1.6; }
-        .review-actions { margin-top: 1rem; font-size: 0.9rem; color: var(--primary); font-weight: 600; cursor: pointer; display: flex; gap: 1.5rem; }
-        .review-actions span:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -151,6 +138,12 @@
                 <span class="user-name-text">{{ $user->name }}</span>
             </div>
         </div>
+
+        @if(session('success'))
+            <div style="background: rgba(16, 185, 129, 0.1); color: var(--success); padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem; border: 1px solid var(--success);">
+                ✅ <strong>Berhasil!</strong> {{ session('success') }}
+            </div>
+        @endif
 
         <div class="card detail-grid">
             <div>
@@ -252,10 +245,49 @@
                         </span>
                     </div>
                     <p class="review-text">{{ $review->comment }}</p>
-                    <div class="review-actions">
-                        <span>❤️ Suka (0)</span>
-                        <span>↩️ Balas Komentar</span>
+                    
+                    <div class="review-actions" style="display: flex; gap: 1.5rem; align-items: center; margin-top: 1rem;">
+                        
+                        <form action="{{ route('reviews.like', $review->id) }}" method="POST" style="margin: 0;">
+                            @csrf
+                            @php
+                                $hasLiked = $review->likes->contains('user_id', Auth::id());
+                            @endphp
+                            <button type="submit" style="background: none; border: none; cursor: pointer; font-size: 0.9rem; font-weight: 600; color: {{ $hasLiked ? 'var(--danger)' : 'var(--text-muted)' }}; transition: 0.2s; padding: 0;">
+                                {{ $hasLiked ? '❤️' : '🤍' }} Suka ({{ $review->likes->count() }})
+                            </button>
+                        </form>
+
+                        <button onclick="toggleReplyForm({{ $review->id }})" style="background: none; border: none; cursor: pointer; font-size: 0.9rem; font-weight: 600; color: var(--primary); padding: 0;">
+                            ↩️ Balas ({{ $review->replies->count() }})
+                        </button>
                     </div>
+
+                    @if($review->replies->count() > 0)
+                        <div style="margin-top: 1.5rem; margin-left: 2rem; padding-left: 1.5rem; border-left: 2px solid var(--border-color);">
+                            @foreach($review->replies as $reply)
+                                <div style="margin-bottom: 1rem;">
+                                    <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.4rem;">
+                                        <div style="width: 24px; height: 24px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: bold;">
+                                            {{ strtoupper(substr($reply->user->name, 0, 1)) }}
+                                        </div>
+                                        <strong style="font-size: 0.9rem; color: var(--text-main);">{{ $reply->user->name }}</strong>
+                                        <span style="font-size: 0.75rem; color: var(--text-muted);">• {{ $reply->created_at->diffForHumans() }}</span>
+                                    </div>
+                                    <p style="font-size: 0.95rem; color: var(--text-main); margin-left: 2.3rem;">{{ $reply->reply_text }}</p>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+
+                    <div id="reply-form-{{ $review->id }}" style="display: none; margin-top: 1.5rem; margin-left: 2rem;">
+                        <form action="{{ route('reviews.reply', $review->id) }}" method="POST" style="display: flex; gap: 0.8rem;">
+                            @csrf
+                            <input type="text" name="reply_text" placeholder="Tulis balasanmu..." required style="flex: 1; padding: 0.8rem 1.2rem; border: 1px solid var(--border-color); border-radius: 2rem; font-size: 0.95rem; font-family: inherit; outline: none; background: var(--input-bg); color: var(--text-main);">
+                            <button type="submit" style="background: var(--primary); color: white; border: none; padding: 0 1.5rem; border-radius: 2rem; font-weight: 600; cursor: pointer; transition: 0.2s;">Kirim</button>
+                        </form>
+                    </div>
+
                 </div>
                 @endforeach
             @else
@@ -267,6 +299,16 @@
     <script>
         const savedTheme = localStorage.getItem('theme') || 'light';
         document.documentElement.setAttribute('data-theme', savedTheme);
+
+        // Fungsi untuk memunculkan/menyembunyikan form balas komentar
+        function toggleReplyForm(reviewId) {
+            const form = document.getElementById('reply-form-' + reviewId);
+            if (form.style.display === 'none' || form.style.display === '') {
+                form.style.display = 'block';
+            } else {
+                form.style.display = 'none';
+            }
+        }
     </script>
 </body>
 </html>

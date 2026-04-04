@@ -14,8 +14,6 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AdminReviewController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\ProfileController;
-
-// [TAMBAHAN] Import QuoteController
 use App\Http\Controllers\QuoteController;
 
 // Import class untuk verifikasi email
@@ -59,7 +57,8 @@ Route::middleware(['auth'])->group(function () {
         return back()->with('success', 'Link verifikasi telah dikirim ulang ke email Anda!');
     })->middleware('throttle:6,1')->name('verification.send');
 
-     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    // Profil User
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     
 });
@@ -70,13 +69,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
-    // Fitur Utama (Koleksi & Peminjaman)
+    // Fitur Utama (Koleksi & Detail Buku)
     Route::get('/koleksi-buku', [BookCollectionController::class, 'index'])->name('books.collection');
-
-    // Fitur Utama (Koleksi & Peminjaman)
-    Route::get('/koleksi-buku', [BookCollectionController::class, 'index'])->name('books.collection');
-    
-    // [TAMBAHAN] Rute Halaman Detail Buku
     Route::get('/buku/{id}', [BookCollectionController::class, 'show'])->name('books.show');
     
     // === RUTE PEMINJAMAN ===
@@ -96,13 +90,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/pengaturan', [SettingsController::class, 'update'])->name('settings.update');
     Route::post('/pengaturan/password', [SettingsController::class, 'updatePassword'])->name('settings.update-password');
 
-    // Ulasan
-    Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
-
     // ==========================================
-    // [TAMBAHAN] Rute Fitur Kutipan (Quotes)
+    // FITUR KOMUNITAS (Quotes, Review, Like, Reply)
     // ==========================================
     Route::post('/quotes', [QuoteController::class, 'store'])->name('quotes.store');
+    
+    Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+    Route::post('/reviews/{id}/like', [ReviewController::class, 'toggleLike'])->name('reviews.like');
+    Route::post('/reviews/{id}/reply', [ReviewController::class, 'storeReply'])->name('reviews.reply');
 });
 
 // 4. KHUSUS ADMIN
