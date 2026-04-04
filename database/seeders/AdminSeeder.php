@@ -17,7 +17,7 @@ class AdminSeeder extends Seeder
         User::create([
             'name' => 'Super Admin', // Nama bebas
             'email' => 'admin@pinjambuku.com', // Email login
-            'password' => Hash::make('password123'), // Password login
+            'password' => Hash::make('password'), // Password login
             'role' => 'admin', // <--- Langsung set jadi admin!
             'email_verified_at' => now(), // <--- Agar tidak perlu verifikasi email lagi
         ]);

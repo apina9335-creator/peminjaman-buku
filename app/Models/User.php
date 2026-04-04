@@ -29,6 +29,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'theme',
         'language',
         'items_per_page',
+        'avatar'
     ];
 
     /**

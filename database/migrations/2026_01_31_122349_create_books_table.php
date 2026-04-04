@@ -12,6 +12,12 @@ return new class extends Migration
             $table->id(); // Ini akan jadi referensi 'book_id'
             $table->string('title');
             $table->string('author');
+            
+            // --- DUA KOLOM INI YANG SEBELUMNYA KURANG ---
+            $table->string('category')->nullable(); 
+            $table->text('spoiler')->nullable();    
+            // --------------------------------------------
+
             $table->text('description')->nullable();
             $table->string('publisher')->nullable();
             $table->integer('year')->nullable();

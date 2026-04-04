@@ -13,6 +13,7 @@ use App\Http\Controllers\AdminBookController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AdminReviewController;
 use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\ProfileController;
 
 // Import class untuk verifikasi email
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -37,7 +38,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // RUTE VERIFIKASI EMAIL (LENGKAP & FIX ERROR)
 // ==========================================================
 Route::middleware(['auth'])->group(function () {
-    
+
     // 1. Halaman Pemberitahuan (FIX ERROR verification.notice)
     // Ini halaman yang muncul kalau user belum verifikasi email
     Route::get('/email/verify', function () {
@@ -55,6 +56,10 @@ Route::middleware(['auth'])->group(function () {
         $request->user()->sendEmailVerificationNotification();
         return back()->with('success', 'Link verifikasi telah dikirim ulang ke email Anda!');
     })->middleware('throttle:6,1')->name('verification.send');
+
+     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    
 });
 
 

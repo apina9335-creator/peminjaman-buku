@@ -35,8 +35,8 @@ class AuthController extends Controller
             // Kita ganti intended() menjadi route() agar admin DIPAKSA ke dashboard admin
             
             if ((int) Auth::user()->is_admin === 1) {
-                return redirect()->route('admin.dashboard'); 
-            }
+    return redirect()->route('admin.dashboard'); 
+}
 
             // Untuk user biasa, boleh pakai intended (biar nyaman)
             return redirect()->intended(route('dashboard'));

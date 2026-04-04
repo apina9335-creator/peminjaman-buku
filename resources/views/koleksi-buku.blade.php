@@ -9,7 +9,6 @@
     <style>
         /* === 1. KONFIGURASI WARNA (VARIABLES) === */
         :root {
-            /* Mode Siang (Default) */
             --bg-body: linear-gradient(135deg, #f0f9ff 0%, #f5f3ff 100%);
             --bg-card: #ffffff;
             --bg-sidebar: linear-gradient(180deg, #3b82f6 0%, #8b5cf6 100%);
@@ -19,7 +18,6 @@
             --shadow: rgba(0,0,0,0.06);
             --input-bg: #ffffff;
             
-            /* Warna Brand */
             --primary: #3b82f6; 
             --primary-light: #dbeafe;
             --primary-dark: #1e40af;
@@ -30,7 +28,6 @@
             --gray-300: #d1d5db;
         }
 
-        /* Mode Malam (Override) */
         [data-theme="dark"] {
             --bg-body: #0f172a;       
             --bg-card: #1e293b;       
@@ -41,18 +38,16 @@
             --shadow: rgba(0,0,0,0.3);
             --input-bg: #0f172a;
             
-            --primary-light: #1e3a8a; /* Background kategori di dark mode */
-            --gray-100: #334155;      /* Warna tombol cancel di dark mode */
+            --primary-light: #1e3a8a;
+            --gray-100: #334155;
             --gray-200: #334155;
             --gray-300: #475569;
         }
 
         /* === 2. STYLE DASAR === */
         * { margin: 0; padding: 0; box-sizing: border-box; transition: background-color 0.3s, color 0.3s, border-color 0.3s; }
-        body { font-family: 'Instrument Sans', sans-serif; background: var(--bg-body); color: var(--text-main); line-height: 1.6; }
-        body { display: flex; }
+        body { font-family: 'Instrument Sans', sans-serif; background: var(--bg-body); color: var(--text-main); line-height: 1.6; display: flex; }
         
-        /* Sidebar */
         .sidebar { width: 280px; background: var(--bg-sidebar); color: white; padding: 2rem 1.5rem; position: fixed; height: 100vh; overflow-y: auto; z-index: 100; box-shadow: 4px 0 15px rgba(0,0,0,0.15); }
         .sidebar-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 3rem; font-size: 1.5rem; font-weight: 700; }
         .sidebar-logo { width: 2.8rem; height: 2.8rem; background: rgba(255,255,255,0.25); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; }
@@ -62,10 +57,8 @@
         .sidebar-menu a:hover, .sidebar-menu a.active { background: rgba(255,255,255,0.2); color: white; transform: translateX(4px); }
         .sidebar-menu-icon { font-size: 1.3rem; width: 1.5rem; text-align: center; }
         
-        /* Main Content */
         .main-content { flex: 1; margin-left: 280px; min-height: 100vh; display: flex; flex-direction: column; }
         
-        /* Navbar */
         nav { background: var(--bg-card); box-shadow: 0 4px 12px var(--shadow); position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--border-color); }
         nav .container { max-width: 1400px; margin: 0 auto; padding: 1.2rem 2rem; display: flex; justify-content: space-between; align-items: center; gap: 2rem; }
         .nav-left { display: flex; align-items: center; gap: 1rem; color: var(--text-main); font-weight: 600; }
@@ -75,37 +68,27 @@
         .user-details h4 { font-size: 1rem; color: var(--text-main); margin-bottom: 0.25rem; font-weight: 700; }
         .user-details p { font-size: 0.8rem; color: var(--text-muted); }
         
-        /* Tombol Dark Mode */
-        .theme-toggle {
-            background: var(--bg-card); border: 1px solid var(--border-color);
-            color: var(--text-main); padding: 0.5rem; border-radius: 50%;
-            cursor: pointer; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
-            font-size: 1.2rem; box-shadow: 0 2px 5px var(--shadow); margin-right: 10px;
-        }
+        .theme-toggle { background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main); padding: 0.5rem; border-radius: 50%; cursor: pointer; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; box-shadow: 0 2px 5px var(--shadow); margin-right: 10px; }
         .theme-toggle:hover { transform: scale(1.1); }
         .logout-btn { padding: 0.75rem 1.5rem; background: linear-gradient(135deg, var(--danger) 0%, #dc2626 100%); color: white; border: none; border-radius: 0.75rem; cursor: pointer; font-weight: 600; transition: all 0.3s ease; text-decoration: none; font-size: 0.9rem; }
 
-        /* Page Layout */
         .container { max-width: 1400px; margin: 0 auto; padding: 2.5rem; flex: 1; }
         .page-header { margin-bottom: 2.5rem; display: flex; justify-content: space-between; align-items: center; gap: 2rem; }
         .page-header h1 { font-size: 2.5rem; color: var(--text-main); margin-bottom: 0.5rem; font-weight: 700; }
         .page-header p { color: var(--text-muted); font-size: 1rem; }
         
-        /* Search & Filter */
         .search-box { display: flex; gap: 1rem; align-items: center; }
         .search-input { flex: 1; padding: 0.75rem 1.25rem; border: 2px solid var(--gray-300); border-radius: 0.75rem; font-size: 0.95rem; background: var(--input-bg); color: var(--text-main); font-family: inherit; }
         .search-input:focus { outline: none; border-color: var(--primary); }
         .filter-select { padding: 0.75rem 1.25rem; border: 2px solid var(--gray-300); border-radius: 0.75rem; background: var(--input-bg); color: var(--text-main); cursor: pointer; font-size: 0.95rem; font-family: inherit; }
         
-        /* Stats Bar */
         .stats-bar { background: var(--bg-card); padding: 1.5rem; border-radius: 1.2rem; margin-bottom: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; box-shadow: 0 4px 15px var(--shadow); border: 1px solid var(--border-color); }
         .stat-item { text-align: center; }
         .stat-item h4 { font-size: 2rem; color: var(--primary); margin-bottom: 0.5rem; font-weight: 700; }
         .stat-item p { color: var(--text-muted); font-size: 0.9rem; }
 
-        /* Books Grid */
         .books-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.8rem; margin-bottom: 2rem; }
-        .book-card { background: var(--bg-card); border-radius: 1.2rem; overflow: hidden; box-shadow: 0 4px 15px var(--shadow); transition: all 0.4s; cursor: pointer; border: 1px solid var(--border-color); display: flex; flex-direction: column; }
+        .book-card { background: var(--bg-card); border-radius: 1.2rem; overflow: hidden; box-shadow: 0 4px 15px var(--shadow); transition: all 0.4s; border: 1px solid var(--border-color); display: flex; flex-direction: column; }
         .book-card:hover { transform: translateY(-12px); box-shadow: 0 20px 40px var(--shadow); }
         .book-cover { width: 100%; height: 260px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 5rem; font-weight: 700; position: relative; overflow: hidden; }
         
@@ -115,39 +98,31 @@
         .book-category { display: inline-block; background: var(--primary-light); color: var(--primary); padding: 0.3rem 0.8rem; border-radius: 0.5rem; font-size: 0.75rem; font-weight: 600; margin-bottom: 1rem; width: fit-content; }
         .book-rating { display: flex; align-items: center; gap: 0.4rem; font-size: 1.1rem; margin-bottom: 0.75rem; }
         
-        /* Buttons */
-        .btn-borrow {
-            width: 100%; padding: 0.75rem; border: none; border-radius: 0.75rem;
-            color: white; font-weight: 600; cursor: pointer; transition: all 0.2s;
-            font-size: 0.9rem; text-align: center; display: block; margin-top: 10px;
-        }
+        .btn-borrow { width: 100%; padding: 0.75rem; border: none; border-radius: 0.75rem; color: white; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 0.9rem; text-align: center; display: block; margin-top: 10px; }
         .btn-borrow.available { background: linear-gradient(135deg, var(--success) 0%, #059669 100%); }
         .btn-borrow.unavailable { background: var(--gray-200); color: var(--text-muted); cursor: not-allowed; }
+        
+        /* Tombol Spoiler Baru */
+        .btn-spoiler { width: 100%; padding: 0.5rem; border: 1.5px solid var(--primary); border-radius: 0.5rem; color: var(--primary); background: transparent; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 0.85rem; text-align: center; display: block; margin-top: 10px; }
+        .btn-spoiler:hover { background: var(--primary-light); }
 
-        /* Modal */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
-            display: flex; align-items: center; justify-content: center;
-            z-index: 1000; opacity: 0; pointer-events: none; transition: all 0.3s;
-        }
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; pointer-events: none; transition: all 0.3s; }
         .modal-overlay.active { opacity: 1; pointer-events: all; }
-        .modal-content {
-            background: var(--bg-card); padding: 2rem; border-radius: 1.5rem;
-            width: 90%; max-width: 450px; transform: translateY(20px); transition: all 0.3s;
-            border: 1px solid var(--border-color); color: var(--text-main);
-        }
+        .modal-content { background: var(--bg-card); padding: 2rem; border-radius: 1.5rem; width: 90%; max-width: 450px; transform: translateY(20px); transition: all 0.3s; border: 1px solid var(--border-color); color: var(--text-main); }
         .modal-overlay.active .modal-content { transform: translateY(0); }
         .modal-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-main); }
         .modal-subtitle { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+        
+        /* CSS Khusus Untuk Area Teks Spoiler */
+        .spoiler-text-area { background: var(--gray-100); padding: 1.5rem; border-radius: 1rem; border: 1px solid var(--gray-200); max-height: 350px; overflow-y: auto; font-size: 0.95rem; line-height: 1.7; white-space: pre-wrap; color: var(--text-main); margin-bottom: 1.5rem; text-align: justify; }
+
         .form-label { display: block; margin-bottom: 0.5rem; color: var(--text-main); font-weight: 600; font-size: 0.9rem; }
         .form-input { width: 100%; padding: 0.85rem 1rem; border: 2px solid var(--gray-300); border-radius: 0.75rem; font-family: inherit; font-size: 1rem; background: var(--input-bg); color: var(--text-main); }
-        .modal-actions { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem; }
+        .modal-actions { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1rem; }
         .btn { padding: 0.75rem 1.5rem; border-radius: 0.75rem; font-weight: 600; border: none; cursor: pointer; }
         .btn-cancel { background: var(--gray-100); color: var(--text-main); }
         .btn-submit { background: var(--primary); color: white; }
 
-        /* Star Rating */
         .star-rating { direction: rtl; display: inline-flex; }
         .star-rating input { display: none; }
         .star-rating label { font-size: 2rem; color: var(--gray-300); cursor: pointer; transition: 0.2s; }
@@ -190,7 +165,6 @@
         </nav>
 
         <div class="container">
-            {{-- AREA NOTIFIKASI --}}
             @if(session('success'))
                 <div style="background: rgba(16, 185, 129, 0.1); color: var(--success); padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem; border: 1px solid var(--success);">
                     ✅ <strong>Berhasil!</strong> {{ session('success') }}
@@ -254,18 +228,16 @@
                         <p class="book-author">{{ $book['author'] }}</p>
                         <span class="book-category">{{ $book['category'] }}</span>
                         
-                        {{-- RATING & ULASAN --}}
                         <div class="book-rating" style="display: flex; justify-content: space-between; align-items: center;">
                             <div>
                                 <span style="color: #f59e0b;">⭐ {{ $book['rating'] }}</span>
                                 <span style="font-size: 0.8rem; color: var(--text-muted);">({{ $book['reviews'] }})</span>
                             </div>
-                            <button onclick="openReviewModal('{{ $book['id'] }}', '{{ $book['title'] }}')" style="background: none; border: none; color: var(--primary); font-size: 0.8rem; cursor: pointer; text-decoration: underline;">
+                            <button onclick="openReviewModal('{{ $book['id'] }}', '{{ addslashes($book['title']) }}')" style="background: none; border: none; color: var(--primary); font-size: 0.8rem; cursor: pointer; text-decoration: underline;">
                                 Tulis Ulasan
                             </button>
                         </div>
 
-                        {{-- TOMBOL FAVORIT --}}
                         <form action="{{ route('favorites.toggle') }}" method="POST" style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px; margin-top: 10px;">
                             @csrf
                             <input type="hidden" name="book_id" value="{{ $book['id'] }}">
@@ -280,8 +252,18 @@
                             </span>
                         </form>
 
+                        {{-- DATA SPOILER DISEMBUNYIKAN UNTUK DIAMBIL OLEH JS NANTI --}}
+                        <div id="spoiler-data-{{ $book['id'] }}" style="display: none;">{{ $book['spoiler'] ?? '' }}</div>
+
+                        {{-- TOMBOL BACA CUPLIKAN (Hanya muncul jika admin sudah mengisi spoiler) --}}
+                        @if(!empty($book['spoiler']))
+                            <button onclick="openSpoilerModal('{{ $book['id'] }}', '{{ addslashes($book['title']) }}')" class="btn-spoiler">
+                                👀 Baca Cuplikan
+                            </button>
+                        @endif
+
                         @if($book['available']) 
-                            <button onclick="openModal('{{ $book['id'] }}', '{{ $book['title'] }}')" class="btn-borrow available">
+                            <button onclick="openModal('{{ $book['id'] }}', '{{ addslashes($book['title']) }}')" class="btn-borrow available">
                                 📖 Pinjam Buku Ini
                             </button>
                         @else
@@ -292,6 +274,21 @@
                     </div>
                 </div>
                 @endforeach
+            </div>
+        </div>
+    </div>
+
+    {{-- MODAL SPOILER BACAAN BUKU --}}
+    <div id="spoilerModal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 600px;">
+            <h2 class="modal-title">👀 Cuplikan Bacaan</h2>
+            <p id="spoilerBookTitle" class="modal-subtitle" style="font-weight: bold; color: var(--primary);">Judul Buku</p>
+            
+            <div id="spoilerText" class="spoiler-text-area">
+                </div>
+
+            <div class="modal-actions">
+                <button type="button" onclick="closeSpoilerModal()" class="btn btn-cancel" style="width: 100%;">Tutup</button>
             </div>
         </div>
     </div>
@@ -353,10 +350,8 @@
     </div>
 
     <script>
-        // === DARK MODE LOGIC ===
         const html = document.documentElement;
         const themeBtn = document.getElementById('themeBtn');
-
         const savedTheme = localStorage.getItem('theme') || 'light';
         html.setAttribute('data-theme', savedTheme);
         updateIcon(savedTheme);
@@ -368,18 +363,14 @@
             localStorage.setItem('theme', newTheme);
             updateIcon(newTheme);
         }
+        function updateIcon(theme) { themeBtn.innerText = theme === 'dark' ? '☀️' : '🌙'; }
 
-        function updateIcon(theme) {
-            themeBtn.innerText = theme === 'dark' ? '☀️' : '🌙';
-        }
-
-        // === MODAL & SEARCH LOGIC ===
+        // MENGATUR SEMUA MODAL
         const modal = document.getElementById('loanModal');
         const reviewModal = document.getElementById('reviewModal');
-        const searchInput = document.getElementById('searchInput');
-        const categoryFilter = document.getElementById('categoryFilter');
-        const bookCards = document.querySelectorAll('.book-card');
-
+        const spoilerModal = document.getElementById('spoilerModal');
+        
+        // Modal Pinjam
         function openModal(id, title) {
             document.getElementById('modalBookId').value = id;
             document.getElementById('modalBookTitle').innerText = 'Meminjam: ' + title;
@@ -387,6 +378,7 @@
         }
         function closeModal() { modal.classList.remove('active'); }
         
+        // Modal Ulasan
         function openReviewModal(id, title) {
             document.getElementById('reviewBookId').value = id;
             document.getElementById('reviewBookTitle').innerText = 'Mengulas: ' + title;
@@ -394,10 +386,26 @@
         }
         function closeReviewModal() { reviewModal.classList.remove('active'); }
 
+        // Modal Spoiler
+        function openSpoilerModal(id, title) {
+            let spoilerText = document.getElementById('spoiler-data-' + id).innerText;
+            document.getElementById('spoilerBookTitle').innerText = title;
+            document.getElementById('spoilerText').innerText = spoilerText;
+            spoilerModal.classList.add('active');
+        }
+        function closeSpoilerModal() { spoilerModal.classList.remove('active'); }
+
+        // Menutup modal jika klik di luar kotak
         window.onclick = function(e) {
             if (e.target == modal) closeModal();
             if (e.target == reviewModal) closeReviewModal();
+            if (e.target == spoilerModal) closeSpoilerModal();
         }
+
+        // Pencarian
+        const searchInput = document.getElementById('searchInput');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const bookCards = document.querySelectorAll('.book-card');
 
         function filterBooks() {
             const searchTerm = searchInput.value.toLowerCase();
