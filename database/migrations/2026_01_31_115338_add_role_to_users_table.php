@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            // Menambahkan kolom 'role' setelah kolom 'password'
-            // Default kita set 'user' agar pendaftar baru otomatis jadi user biasa
-            $table->string('role')->default('user')->after('password'); 
+            // GANTI 'role' MENJADI 'is_admin'
+            // Kita gunakan boolean (0 atau 1) agar lebih efisien
+            $table->boolean('is_admin')->default(0)->after('password'); 
         });
     }
 
@@ -24,8 +24,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            // Hapus kolom jika migrasi di-rollback
-            $table->dropColumn('role');
+            $table->dropColumn('is_admin');
         });
     }
 };
