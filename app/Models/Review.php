@@ -18,4 +18,14 @@ class Review extends Model
     public function book() {
         return $this->belongsTo(Book::class);
     }
+    // Tambahkan 2 fungsi ini di dalam class Review
+    public function likes()
+    {
+        return $this->hasMany(ReviewLike::class);
+    }
+
+    public function replies()
+    {
+        return $this->hasMany(ReviewReply::class);
+    }
 }

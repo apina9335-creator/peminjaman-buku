@@ -27,14 +27,16 @@ class AdminLoanController extends Controller
         $loan = Loan::findOrFail($id);
         
         // 1. Hitung durasi hari yang diminta user (Jatuh Tempo Awal - Tgl Ajukan)
-        $tglAjukan = \Carbon\Carbon::parse($loan->loan_date);
+        // PERBAIKAN: Menggunakan borrow_date
+        $tglAjukan = \Carbon\Carbon::parse($loan->borrow_date);
         $tglKembaliLama = \Carbon\Carbon::parse($loan->return_date);
         
         // Ambil selisih hari (misal: 7 hari)
         $durasiHari = $tglAjukan->diffInDays($tglKembaliLama);
 
         // 2. RESET Tanggal Pinjam jadi HARI INI (Waktu Admin Klik Setuju)
-        $loan->loan_date = now();
+        // PERBAIKAN: Menggunakan borrow_date
+        $loan->borrow_date = now();
         
         // 3. RESET Jatuh Tempo (Hari Ini + Durasi Awal)
         // Jadi user tetap dapat full 7 hari terhitung dari sekarang

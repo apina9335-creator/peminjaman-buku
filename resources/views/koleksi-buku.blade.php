@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
     <style>
-        /* === 1. KONFIGURASI WARNA === */
+        /* === KONFIGURASI WARNA === */
         :root {
             --bg-body: linear-gradient(135deg, #f0f9ff 0%, #f5f3ff 100%);
             --bg-card: #ffffff;
@@ -26,6 +26,7 @@
             --primary-dark: #1e40af;
             --danger: #ef4444; 
             --success: #10b981;
+            --warning: #f59e0b;
             --gray-100: #f3f4f6;
             --gray-200: #e5e7eb;
             --gray-300: #d1d5db;
@@ -47,38 +48,50 @@
             --gray-300: #475569;
         }
 
-        /* === 2. STYLE DASAR === */
+        /* === STYLE DASAR === */
         * { margin: 0; padding: 0; box-sizing: border-box; transition: background-color 0.3s, color 0.3s, border-color 0.3s; }
         body { font-family: 'Instrument Sans', sans-serif; background: var(--bg-body); color: var(--text-main); line-height: 1.6; display: flex; }
         
-        /* SIDEBAR & NAVBAR */
+        /* SIDEBAR */
         .sidebar { width: 280px; background: var(--bg-sidebar); color: white; padding: 2rem 1.5rem; position: fixed; height: 100vh; overflow-y: auto; z-index: 100; box-shadow: 4px 0 15px rgba(0,0,0,0.15); }
         .sidebar-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 3rem; font-size: 1.5rem; font-weight: 700; }
-        .sidebar-logo { width: 2.8rem; height: 2.8rem; background: rgba(255,255,255,0.25); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; }
+        .sidebar-logo { width: 2.8rem; height: 2.8rem; background: rgba(255,255,255,0.25); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
         .sidebar-menu { list-style: none; }
         .sidebar-menu li { margin-bottom: 0.75rem; }
-        .sidebar-menu a { display: flex; align-items: center; gap: 1rem; color: rgba(255,255,255,0.85); text-decoration: none; padding: 0.85rem 1rem; border-radius: 0.75rem; transition: all 0.3s ease; font-weight: 500; font-size: 0.95rem; }
+        .sidebar-menu a { display: flex; align-items: center; gap: 1rem; color: rgba(255,255,255,0.85); text-decoration: none; padding: 0.85rem 1rem; border-radius: 0.75rem; font-weight: 500; }
         .sidebar-menu a:hover, .sidebar-menu a.active { background: rgba(255,255,255,0.2); color: white; transform: translateX(4px); }
         .sidebar-menu-icon { font-size: 1.3rem; width: 1.5rem; text-align: center; }
         
+        /* NAVBAR & MAIN CONTENT */
         .main-content { flex: 1; margin-left: 280px; min-height: 100vh; display: flex; flex-direction: column; }
         nav { background: var(--bg-card); box-shadow: 0 4px 12px var(--shadow); position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--border-color); }
-        nav .container { max-width: 1400px; margin: 0 auto; padding: 1.2rem 2rem; display: flex; justify-content: space-between; align-items: center; gap: 2rem; }
-        .nav-left { display: flex; align-items: center; gap: 1rem; color: var(--text-main); font-weight: 600; }
-        .user-menu { display: flex; align-items: center; gap: 2rem; }
-        .user-info { display: flex; align-items: center; gap: 1rem; text-decoration: none; }
-        .user-avatar { width: 3.2rem; height: 3.2rem; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.3rem; }
-        .user-details h4 { font-size: 1rem; color: var(--text-main); margin-bottom: 0.25rem; font-weight: 700; }
-        .user-details p { font-size: 0.8rem; color: var(--text-muted); }
+        nav .container { max-width: 1400px; margin: 0 auto; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
         
-        .theme-toggle { background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main); padding: 0.5rem; border-radius: 50%; cursor: pointer; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; box-shadow: 0 2px 5px var(--shadow); margin-right: 10px; }
-        .logout-btn { padding: 0.75rem 1.5rem; background: linear-gradient(135deg, var(--danger) 0%, #dc2626 100%); color: white; border: none; border-radius: 0.75rem; cursor: pointer; font-weight: 600; font-size: 0.9rem; }
+        .user-menu { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+        
+        /* PERBAIKAN: Profil User tidak tergencet */
+        .user-info { display: flex; align-items: center; gap: 0.8rem; text-decoration: none; background: var(--gray-100); padding: 0.4rem 1.2rem 0.4rem 0.4rem; border-radius: 2rem; border: 1px solid var(--border-color); transition: 0.2s; }
+        .user-info:hover { background: var(--gray-200); }
+        .user-avatar { width: 2.8rem; height: 2.8rem; flex-shrink: 0; border-radius: 50%; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem; }
+        .user-details h4 { font-size: 0.95rem; color: var(--text-main); margin-bottom: 0.1rem; font-weight: 700; white-space: nowrap; }
+        .user-details p { font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; }
+        
+        .theme-toggle { background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main); padding: 0.5rem; border-radius: 50%; cursor: pointer; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; box-shadow: 0 2px 5px var(--shadow); }
+        .logout-btn { padding: 0.6rem 1.2rem; background: linear-gradient(135deg, var(--danger) 0%, #dc2626 100%); color: white; border: none; border-radius: 0.75rem; cursor: pointer; font-weight: 600; font-size: 0.9rem; white-space: nowrap; }
 
         /* KONTEN KOLEKSI BUKU */
         .container { max-width: 1400px; margin: 0 auto; padding: 2.5rem; flex: 1; width: 100%; }
-        .page-header { margin-bottom: 2.5rem; display: flex; justify-content: space-between; align-items: center; gap: 2rem; flex-wrap: wrap; }
-        .page-header h1 { font-size: 2.5rem; color: var(--text-main); margin-bottom: 0.5rem; font-weight: 700; }
-        .page-header p { color: var(--text-muted); font-size: 1rem; }
+        
+        /* PERBAIKAN: Header & Search Box tidak terpotong */
+        .page-header { margin-bottom: 2.5rem; display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+        .header-content { flex-shrink: 0; min-width: 200px; }
+        .header-content h1 { font-size: 2.2rem; color: var(--text-main); margin-bottom: 0.3rem; font-weight: 800; }
+        .header-content p { color: var(--text-muted); font-size: 1rem; }
+        
+        .search-box { display: flex; gap: 1rem; align-items: center; flex: 1; min-width: 320px; max-width: 650px; justify-content: flex-end; flex-wrap: wrap; }
+        .search-input { flex: 1; min-width: 250px; padding: 0.85rem 1.25rem; border: 2px solid var(--gray-300); border-radius: 0.75rem; font-size: 0.95rem; background: var(--input-bg); color: var(--text-main); font-family: inherit; }
+        .search-input:focus { border-color: var(--primary); outline: none; }
+        .filter-select { flex-shrink: 0; padding: 0.85rem 1.25rem; border: 2px solid var(--gray-300); border-radius: 0.75rem; background: var(--input-bg); color: var(--text-main); cursor: pointer; font-size: 0.95rem; font-family: inherit; }
         
         /* SWIPER CAROUSEL STYLE */
         .swiper { width: 100%; height: 350px; border-radius: 1.5rem; margin-bottom: 2.5rem; overflow: hidden; box-shadow: 0 10px 25px var(--shadow); }
@@ -92,32 +105,30 @@
         .swiper-btn:hover { background: var(--gray-200); transform: translateY(-2px); }
         .swiper-pagination-bullet { background: white; opacity: 0.5; }
         .swiper-pagination-bullet-active { background: var(--primary); opacity: 1; width: 25px; border-radius: 5px; transition: 0.3s; }
-
-        .search-box { display: flex; gap: 1rem; align-items: center; width: 100%; max-width: 500px; }
-        .search-input { flex: 1; padding: 0.75rem 1.25rem; border: 2px solid var(--gray-300); border-radius: 0.75rem; font-size: 0.95rem; background: var(--input-bg); color: var(--text-main); font-family: inherit; }
-        .filter-select { padding: 0.75rem 1.25rem; border: 2px solid var(--gray-300); border-radius: 0.75rem; background: var(--input-bg); color: var(--text-main); cursor: pointer; font-size: 0.95rem; font-family: inherit; }
         
+        /* GRID BUKU */
         .stats-bar { background: var(--bg-card); padding: 1.5rem; border-radius: 1.2rem; margin-bottom: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; box-shadow: 0 4px 15px var(--shadow); border: 1px solid var(--border-color); }
         .stat-item { text-align: center; }
         .stat-item h4 { font-size: 2rem; color: var(--primary); margin-bottom: 0.5rem; font-weight: 700; }
-        .stat-item p { color: var(--text-muted); font-size: 0.9rem; }
+        .stat-item p { color: var(--text-muted); font-size: 0.9rem; font-weight: 600; text-transform: uppercase; }
 
         .books-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.8rem; margin-bottom: 2rem; }
         .book-card { background: var(--bg-card); border-radius: 1.2rem; overflow: hidden; box-shadow: 0 4px 15px var(--shadow); transition: all 0.4s; border: 1px solid var(--border-color); display: flex; flex-direction: column; }
-        .book-card:hover { transform: translateY(-12px); box-shadow: 0 20px 40px var(--shadow); }
+        .book-card:hover { transform: translateY(-12px); box-shadow: 0 20px 40px var(--shadow); border-color: var(--primary); }
         
-        /* TAMBAHAN: Hover efek untuk link cover */
         .book-cover-link { display: block; width: 100%; height: 260px; text-decoration: none; }
         .book-cover { width: 100%; height: 100%; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 5rem; font-weight: 700; position: relative; overflow: hidden; }
+        .book-cover img { width: 100%; height: 100%; object-fit: cover; }
         
         .book-info { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
-        .book-info h3 { font-size: 1.05rem; color: var(--text-main); margin-bottom: 0.5rem; line-height: 1.5; font-weight: 700; transition: 0.2s; }
+        .book-info h3 { font-size: 1.1rem; color: var(--text-main); margin-bottom: 0.5rem; line-height: 1.4; font-weight: 800; transition: 0.2s; }
         .book-info h3:hover { color: var(--primary); }
         .book-author { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem; }
-        .book-category { display: inline-block; background: var(--primary-light); color: var(--primary); padding: 0.3rem 0.8rem; border-radius: 0.5rem; font-size: 0.75rem; font-weight: 600; margin-bottom: 1rem; width: fit-content; }
+        .book-category { display: inline-block; background: var(--primary-light); color: var(--primary); padding: 0.3rem 0.8rem; border-radius: 0.5rem; font-size: 0.75rem; font-weight: 700; margin-bottom: 1rem; width: fit-content; border: 1px solid rgba(59, 130, 246, 0.2); }
         
         .btn-borrow { width: 100%; padding: 0.75rem; border: none; border-radius: 0.75rem; color: white; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 0.9rem; text-align: center; display: block; margin-top: 10px; }
         .btn-borrow.available { background: linear-gradient(135deg, var(--success) 0%, #059669 100%); }
+        .btn-borrow.available:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(16, 185, 129, 0.4); }
         .btn-borrow.unavailable { background: var(--gray-200); color: var(--text-muted); cursor: not-allowed; }
         
         .btn-spoiler { width: 100%; padding: 0.5rem; border: 1.5px solid var(--primary); border-radius: 0.5rem; color: var(--primary); background: transparent; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 0.85rem; text-align: center; display: block; margin-top: 10px; }
@@ -130,14 +141,12 @@
         .modal-overlay.active .modal-content { transform: translateY(0); }
         .modal-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-main); }
         .spoiler-text-area { background: var(--gray-100); padding: 1.5rem; border-radius: 1rem; border: 1px solid var(--gray-200); max-height: 350px; overflow-y: auto; font-size: 0.95rem; line-height: 1.7; white-space: pre-wrap; color: var(--text-main); margin-bottom: 1.5rem; text-align: justify; }
-
         .form-label { display: block; margin-bottom: 0.5rem; color: var(--text-main); font-weight: 600; font-size: 0.9rem; }
         .form-input { width: 100%; padding: 0.85rem 1rem; border: 2px solid var(--gray-300); border-radius: 0.75rem; font-family: inherit; font-size: 1rem; background: var(--input-bg); color: var(--text-main); }
         .modal-actions { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1rem; }
         .btn { padding: 0.75rem 1.5rem; border-radius: 0.75rem; font-weight: 600; border: none; cursor: pointer; }
         .btn-cancel { background: var(--gray-100); color: var(--text-main); }
         .btn-submit { background: var(--primary); color: white; }
-
         .star-rating { direction: rtl; display: inline-flex; }
         .star-rating input { display: none; }
         .star-rating label { font-size: 2rem; color: var(--gray-300); cursor: pointer; transition: 0.2s; }
@@ -164,14 +173,15 @@
 
     <div class="main-content">
         <nav>
-            <div class="container" style="padding: 1.2rem 2rem;">
+            <div class="container">
                 <div class="nav-left">🔔 Notifikasi</div>
+                
                 <div class="user-menu">
                     <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" title="Ganti Mode">🌙</button>
 
-                    <a href="{{ route('profile.edit') }}" class="user-info" style="cursor: pointer; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+                    <a href="{{ route('profile.edit') }}" class="user-info">
                         @if(Auth::user()->avatar)
-                            <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="Profile" style="width: 3.2rem; height: 3.2rem; border-radius: 50%; object-fit: cover;">
+                            <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="Profile" style="width: 2.8rem; height: 2.8rem; border-radius: 50%; object-fit: cover;">
                         @else
                             <div class="user-avatar">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</div>
                         @endif
@@ -205,6 +215,7 @@
                     <h1>Koleksi Buku 📚</h1>
                     <p>Jelajahi dan temukan buku favorit Anda</p>
                 </div>
+                
                 <div class="search-box">
                     <input type="text" class="search-input" placeholder="Cari judul atau penulis..." id="searchInput">
                     <select class="filter-select" id="categoryFilter">
@@ -271,13 +282,12 @@
             <div class="books-grid">
                 @foreach($books as $book)
                 <div class="book-card" data-category="{{ $book['category'] }}" data-title="{{ strtolower($book['title']) }}" data-author="{{ strtolower($book['author']) }}">
-                    
                     <a href="{{ route('books.show', $book['id']) }}" class="book-cover-link">
                         <div class="book-cover">
                             @if($book['cover_image'])
-                                <img src="{{ asset('storage/' . $book['cover_image']) }}" alt="{{ $book['title'] }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="{{ asset('storage/' . $book['cover_image']) }}" alt="{{ $book['title'] }}">
                             @else
-                                <div class="book-cover-content">{{ strtoupper(substr($book['title'], 0, 1)) }}</div>
+                                <span>{{ strtoupper(substr($book['title'], 0, 1)) }}</span>
                             @endif
                         </div>
                     </a>
@@ -294,7 +304,7 @@
                                 <span style="color: #f59e0b;">⭐ {{ $book['rating'] }}</span>
                                 <span style="font-size: 0.8rem; color: var(--text-muted);">({{ $book['reviews'] }})</span>
                             </div>
-                            <button onclick="openReviewModal('{{ $book['id'] }}', '{{ addslashes($book['title']) }}')" style="background: none; border: none; color: var(--primary); font-size: 0.8rem; cursor: pointer; text-decoration: underline;">
+                            <button onclick="openReviewModal('{{ $book['id'] }}', '{{ addslashes($book['title']) }}')" style="background: none; border: none; color: var(--primary); font-size: 0.8rem; cursor: pointer; text-decoration: underline; font-weight: 600;">
                                 Tulis Ulasan
                             </button>
                         </div>
@@ -308,7 +318,7 @@
                             <button type="submit" style="background: none; border: none; cursor: pointer; font-size: 1.5rem; transition: 0.2s; padding: 0;">
                                 {{ $isFav ? '❤️' : '🤍' }} 
                             </button>
-                            <span style="font-size: 0.8rem; color: var(--text-muted); cursor: pointer;" onclick="this.previousElementSibling.click()">
+                            <span style="font-size: 0.8rem; color: var(--text-muted); cursor: pointer; font-weight: 600;" onclick="this.previousElementSibling.click()">
                                 {{ $isFav ? 'Favorit' : 'Tambah ke Favorit' }}
                             </span>
                         </form>
@@ -401,7 +411,6 @@
     </div>
 
     <script>
-        // THEME LOGIC
         const html = document.documentElement;
         const themeBtn = document.getElementById('themeBtn');
         const savedTheme = localStorage.getItem('theme') || 'light';
@@ -417,7 +426,6 @@
         }
         function updateIcon(theme) { themeBtn.innerText = theme === 'dark' ? '☀️' : '🌙'; }
 
-        // MODAL LOGIC
         const modal = document.getElementById('loanModal');
         const reviewModal = document.getElementById('reviewModal');
         const spoilerModal = document.getElementById('spoilerModal');
@@ -450,7 +458,6 @@
             if (e.target == spoilerModal) closeSpoilerModal();
         }
 
-        // SEARCH & FILTER LOGIC
         const searchInput = document.getElementById('searchInput');
         const categoryFilter = document.getElementById('categoryFilter');
         const bookCards = document.querySelectorAll('.book-card');
@@ -476,19 +483,10 @@
         var swiper = new Swiper(".mySwiper", {
             spaceBetween: 30,
             centeredSlides: true,
-            autoplay: {
-                delay: 3500, // Otomatis geser tiap 3.5 detik
-                disableOnInteraction: false,
-            },
-            pagination: {
-                el: ".swiper-pagination",
-                clickable: true,
-            },
-            navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
-            },
-            effect: "fade", // Efek memudar sinematik
+            autoplay: { delay: 3500, disableOnInteraction: false },
+            pagination: { el: ".swiper-pagination", clickable: true },
+            navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+            effect: "fade", 
         });
     </script>
 </body>
