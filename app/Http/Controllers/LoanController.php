@@ -66,7 +66,7 @@ class LoanController extends Controller
         Loan::create([
             'user_id' => $user->id,
             'book_id' => $book->id,
-            'loan_date' => Carbon::now(),
+            'borrow_date' => Carbon::now(),
             'return_date' => Carbon::now()->addDays((int) $request->duration), 
             'status' => 'pending',
             'notes' => $request->notes

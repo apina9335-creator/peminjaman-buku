@@ -13,7 +13,7 @@ class Loan extends Model
     protected $fillable = [
         'user_id',
         'book_id',
-        'loan_date',
+        'borrow_date',
         'return_date',
         'status', // <--- WAJIB ADA
         'notes',  // <--- WAJIB ADA
@@ -21,7 +21,7 @@ class Loan extends Model
     // ---------------------------
 
     protected $casts = [
-        'loan_date' => 'date',
+        'borrow_date' => 'date',
         'return_date' => 'date',
     ];
 

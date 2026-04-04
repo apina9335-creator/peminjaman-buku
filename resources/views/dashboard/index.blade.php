@@ -16,7 +16,7 @@
         }
         body { font-family: 'Instrument Sans', sans-serif; background: #f0f9ff; display: flex; color: var(--gray-800); }
 
-        /* Sidebar (Sama seperti file lain) */
+        /* Sidebar */
         .sidebar { width: 280px; background: linear-gradient(180deg, var(--primary) 0%, var(--secondary) 100%); color: white; padding: 2rem 1.5rem; position: fixed; height: 100vh; overflow-y: auto; z-index: 100; }
         .sidebar-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 3rem; font-size: 1.5rem; font-weight: 700; }
         .sidebar-logo { width: 2.8rem; height: 2.8rem; background: rgba(255,255,255,0.25); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; }
@@ -34,6 +34,9 @@
         .user-profile { display: flex; align-items: center; gap: 1rem; }
         .avatar { width: 40px; height: 40px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
         
+        /* Box Umum / Card */
+        .card { background: white; padding: 1.5rem; border-radius: 1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+
         /* Hero Section */
         .hero-card { background: white; padding: 2rem; border-radius: 1.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; }
         .hero-text h1 { font-size: 1.8rem; margin-bottom: 0.5rem; color: var(--gray-800); }
@@ -49,7 +52,7 @@
         .stat-label { color: #6b7280; font-size: 0.9rem; }
 
         /* Section Title */
-        .section-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; }
+        .section-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; }
         .view-all { font-size: 0.9rem; color: var(--primary); text-decoration: none; }
 
         /* Active Loans List */
@@ -61,7 +64,7 @@
         .badge-due { background: #fef3c7; color: #d97706; padding: 0.3rem 0.8rem; border-radius: 2rem; font-size: 0.8rem; font-weight: 600; }
 
         /* New Books Grid */
-        .books-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1.5rem; }
+        .books-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
         .book-card { background: white; border-radius: 1rem; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.05); transition: 0.3s; }
         .book-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
         .book-cover { height: 200px; background: #e5e7eb; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: #9ca3af; }
@@ -110,22 +113,31 @@
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-icon">📤</div>
-                <div class="stat-value" style="color: var(--warning);">{{ $stats['active_loans'] }}</div>
+                <div class="stat-value" style="color: var(--warning);">{{ $stats['active_loans'] ?? 0 }}</div>
                 <div class="stat-label">Sedang Dipinjam</div>
             </div>
             <div class="stat-card">
                 <div class="stat-icon">❤️</div>
-                <div class="stat-value" style="color: var(--danger);">{{ $stats['favorites'] }}</div>
+                <div class="stat-value" style="color: var(--danger);">{{ $stats['favorites'] ?? 0 }}</div>
                 <div class="stat-label">Buku Favorit</div>
             </div>
             <div class="stat-card">
                 <div class="stat-icon">✅</div>
-                <div class="stat-value" style="color: var(--success);">{{ $stats['total_returned'] }}</div>
+                <div class="stat-value" style="color: var(--success);">{{ $stats['total_returned'] ?? 0 }}</div>
                 <div class="stat-label">Buku Dikembalikan</div>
             </div>
         </div>
 
-        @if($activeLoans->count() > 0)
+        <div class="card" style="margin-bottom: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h2 style="font-size: 1.25rem; font-weight: 700;">📊 Statistik Membaca Anda (Tahun Ini)</h2>
+            </div>
+            <div style="position: relative; height: 300px; width: 100%;">
+                <canvas id="readingChart"></canvas>
+            </div>
+        </div>
+
+        @if(isset($activeLoans) && $activeLoans->count() > 0)
         <div class="section-title">
             <span>⚠️ Jangan Lupa Dikembalikan</span>
             <a href="{{ route('loans') }}" class="view-all">Lihat Semua</a>
@@ -136,7 +148,7 @@
                 <div style="font-size: 2rem;">📖</div>
                 <div class="loan-info">
                     <h4>{{ $loan->book->title }}</h4>
-                    <p>Dipinjam: {{ \Carbon\Carbon::parse($loan->loan_date)->format('d M Y') }}</p>
+                    <p>Dipinjam: {{ \Carbon\Carbon::parse($loan->borrow_date)->format('d M Y') }}</p>
                 </div>
                 <div class="loan-date">
                     <span class="badge-due">Tenggat: {{ \Carbon\Carbon::parse($loan->return_date)->format('d M Y') }}</span>
@@ -146,6 +158,7 @@
         </div>
         @endif
 
+        @if(isset($newBooks))
         <div class="section-title">
             <span>🔥 Buku Terbaru</span>
             <a href="{{ route('books.collection') }}" class="view-all">Lihat Semua</a>
@@ -169,8 +182,49 @@
             </a>
             @endforeach
         </div>
+        @endif
 
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const ctx = document.getElementById('readingChart').getContext('2d');
+            
+            // PERBAIKAN: Menggunakan {!! json_encode() !!} murni agar tidak error Parse
+            const monthlyData = {!! json_encode($monthlyLoans ?? [0,0,0,0,0,0,0,0,0,0,0,0]) !!};
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+                    datasets: [{
+                        label: 'Jumlah Buku Dipinjam',
+                        data: monthlyData,
+                        backgroundColor: 'rgba(59, 130, 246, 0.8)',
+                        borderColor: 'rgb(37, 99, 235)',
+                        borderWidth: 1,
+                        borderRadius: 6, 
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { font: { family: "'Instrument Sans', sans-serif" } } }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { stepSize: 1 } 
+                        },
+                        x: {
+                            grid: { display: false } 
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>

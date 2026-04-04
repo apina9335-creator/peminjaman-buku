@@ -6,8 +6,11 @@
     <title>Koleksi Buku - PinjamBuku</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700&display=swap" rel="stylesheet" />
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
     <style>
-        /* === 1. KONFIGURASI WARNA (VARIABLES) === */
+        /* === 1. KONFIGURASI WARNA === */
         :root {
             --bg-body: linear-gradient(135deg, #f0f9ff 0%, #f5f3ff 100%);
             --bg-card: #ffffff;
@@ -48,6 +51,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; transition: background-color 0.3s, color 0.3s, border-color 0.3s; }
         body { font-family: 'Instrument Sans', sans-serif; background: var(--bg-body); color: var(--text-main); line-height: 1.6; display: flex; }
         
+        /* SIDEBAR & NAVBAR */
         .sidebar { width: 280px; background: var(--bg-sidebar); color: white; padding: 2rem 1.5rem; position: fixed; height: 100vh; overflow-y: auto; z-index: 100; box-shadow: 4px 0 15px rgba(0,0,0,0.15); }
         .sidebar-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 3rem; font-size: 1.5rem; font-weight: 700; }
         .sidebar-logo { width: 2.8rem; height: 2.8rem; background: rgba(255,255,255,0.25); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; }
@@ -58,28 +62,39 @@
         .sidebar-menu-icon { font-size: 1.3rem; width: 1.5rem; text-align: center; }
         
         .main-content { flex: 1; margin-left: 280px; min-height: 100vh; display: flex; flex-direction: column; }
-        
         nav { background: var(--bg-card); box-shadow: 0 4px 12px var(--shadow); position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--border-color); }
         nav .container { max-width: 1400px; margin: 0 auto; padding: 1.2rem 2rem; display: flex; justify-content: space-between; align-items: center; gap: 2rem; }
         .nav-left { display: flex; align-items: center; gap: 1rem; color: var(--text-main); font-weight: 600; }
         .user-menu { display: flex; align-items: center; gap: 2rem; }
-        .user-info { display: flex; align-items: center; gap: 1rem; }
+        .user-info { display: flex; align-items: center; gap: 1rem; text-decoration: none; }
         .user-avatar { width: 3.2rem; height: 3.2rem; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.3rem; }
         .user-details h4 { font-size: 1rem; color: var(--text-main); margin-bottom: 0.25rem; font-weight: 700; }
         .user-details p { font-size: 0.8rem; color: var(--text-muted); }
         
         .theme-toggle { background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main); padding: 0.5rem; border-radius: 50%; cursor: pointer; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; box-shadow: 0 2px 5px var(--shadow); margin-right: 10px; }
-        .theme-toggle:hover { transform: scale(1.1); }
-        .logout-btn { padding: 0.75rem 1.5rem; background: linear-gradient(135deg, var(--danger) 0%, #dc2626 100%); color: white; border: none; border-radius: 0.75rem; cursor: pointer; font-weight: 600; transition: all 0.3s ease; text-decoration: none; font-size: 0.9rem; }
+        .logout-btn { padding: 0.75rem 1.5rem; background: linear-gradient(135deg, var(--danger) 0%, #dc2626 100%); color: white; border: none; border-radius: 0.75rem; cursor: pointer; font-weight: 600; font-size: 0.9rem; }
 
-        .container { max-width: 1400px; margin: 0 auto; padding: 2.5rem; flex: 1; }
-        .page-header { margin-bottom: 2.5rem; display: flex; justify-content: space-between; align-items: center; gap: 2rem; }
+        /* KONTEN KOLEKSI BUKU */
+        .container { max-width: 1400px; margin: 0 auto; padding: 2.5rem; flex: 1; width: 100%; }
+        .page-header { margin-bottom: 2.5rem; display: flex; justify-content: space-between; align-items: center; gap: 2rem; flex-wrap: wrap; }
         .page-header h1 { font-size: 2.5rem; color: var(--text-main); margin-bottom: 0.5rem; font-weight: 700; }
         .page-header p { color: var(--text-muted); font-size: 1rem; }
         
-        .search-box { display: flex; gap: 1rem; align-items: center; }
+        /* SWIPER CAROUSEL STYLE */
+        .swiper { width: 100%; height: 350px; border-radius: 1.5rem; margin-bottom: 2.5rem; overflow: hidden; box-shadow: 0 10px 25px var(--shadow); }
+        .swiper-slide { position: relative; display: flex; align-items: flex-end; padding: 3rem; color: white; background-color: #1e293b; background-size: cover; background-position: center; }
+        .swiper-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.1) 100%); z-index: 1; }
+        .swiper-content { position: relative; z-index: 2; max-width: 600px; }
+        .swiper-tag { display: inline-block; background: var(--primary); color: white; padding: 0.3rem 0.8rem; border-radius: 2rem; font-size: 0.8rem; font-weight: bold; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 1px; }
+        .swiper-title { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; line-height: 1.2; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        .swiper-author { font-size: 1.1rem; color: #e2e8f0; margin-bottom: 1.5rem; }
+        .swiper-btn { background: white; color: var(--primary-dark); padding: 0.8rem 1.5rem; border-radius: 0.75rem; font-weight: 700; border: none; cursor: pointer; transition: 0.3s; }
+        .swiper-btn:hover { background: var(--gray-200); transform: translateY(-2px); }
+        .swiper-pagination-bullet { background: white; opacity: 0.5; }
+        .swiper-pagination-bullet-active { background: var(--primary); opacity: 1; width: 25px; border-radius: 5px; transition: 0.3s; }
+
+        .search-box { display: flex; gap: 1rem; align-items: center; width: 100%; max-width: 500px; }
         .search-input { flex: 1; padding: 0.75rem 1.25rem; border: 2px solid var(--gray-300); border-radius: 0.75rem; font-size: 0.95rem; background: var(--input-bg); color: var(--text-main); font-family: inherit; }
-        .search-input:focus { outline: none; border-color: var(--primary); }
         .filter-select { padding: 0.75rem 1.25rem; border: 2px solid var(--gray-300); border-radius: 0.75rem; background: var(--input-bg); color: var(--text-main); cursor: pointer; font-size: 0.95rem; font-family: inherit; }
         
         .stats-bar { background: var(--bg-card); padding: 1.5rem; border-radius: 1.2rem; margin-bottom: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; box-shadow: 0 4px 15px var(--shadow); border: 1px solid var(--border-color); }
@@ -96,7 +111,6 @@
         .book-info h3 { font-size: 1.05rem; color: var(--text-main); margin-bottom: 0.5rem; line-height: 1.5; font-weight: 700; }
         .book-author { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem; }
         .book-category { display: inline-block; background: var(--primary-light); color: var(--primary); padding: 0.3rem 0.8rem; border-radius: 0.5rem; font-size: 0.75rem; font-weight: 600; margin-bottom: 1rem; width: fit-content; }
-        .book-rating { display: flex; align-items: center; gap: 0.4rem; font-size: 1.1rem; margin-bottom: 0.75rem; }
         
         .btn-borrow { width: 100%; padding: 0.75rem; border: none; border-radius: 0.75rem; color: white; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 0.9rem; text-align: center; display: block; margin-top: 10px; }
         .btn-borrow.available { background: linear-gradient(135deg, var(--success) 0%, #059669 100%); }
@@ -105,13 +119,12 @@
         .btn-spoiler { width: 100%; padding: 0.5rem; border: 1.5px solid var(--primary); border-radius: 0.5rem; color: var(--primary); background: transparent; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 0.85rem; text-align: center; display: block; margin-top: 10px; }
         .btn-spoiler:hover { background: var(--primary-light); }
 
+        /* MODAL */
         .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; pointer-events: none; transition: all 0.3s; }
         .modal-overlay.active { opacity: 1; pointer-events: all; }
         .modal-content { background: var(--bg-card); padding: 2rem; border-radius: 1.5rem; width: 90%; max-width: 450px; transform: translateY(20px); transition: all 0.3s; border: 1px solid var(--border-color); color: var(--text-main); }
         .modal-overlay.active .modal-content { transform: translateY(0); }
         .modal-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-main); }
-        .modal-subtitle { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
-        
         .spoiler-text-area { background: var(--gray-100); padding: 1.5rem; border-radius: 1rem; border: 1px solid var(--gray-200); max-height: 350px; overflow-y: auto; font-size: 0.95rem; line-height: 1.7; white-space: pre-wrap; color: var(--text-main); margin-bottom: 1.5rem; text-align: justify; }
 
         .form-label { display: block; margin-bottom: 0.5rem; color: var(--text-main); font-weight: 600; font-size: 0.9rem; }
@@ -129,6 +142,7 @@
     </style>
 </head>
 <body>
+
     <aside class="sidebar">
         <div class="sidebar-header">
             <div class="sidebar-logo">📚</div>
@@ -146,19 +160,17 @@
 
     <div class="main-content">
         <nav>
-            <div class="container">
+            <div class="container" style="padding: 1.2rem 2rem;">
                 <div class="nav-left">🔔 Notifikasi</div>
                 <div class="user-menu">
                     <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" title="Ganti Mode">🌙</button>
 
-                    <a href="{{ route('profile.edit') }}" class="user-info" style="cursor: pointer; transition: opacity 0.2s; text-decoration: none;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
-                        
+                    <a href="{{ route('profile.edit') }}" class="user-info" style="cursor: pointer; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
                         @if(Auth::user()->avatar)
                             <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="Profile" style="width: 3.2rem; height: 3.2rem; border-radius: 50%; object-fit: cover;">
                         @else
                             <div class="user-avatar">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</div>
                         @endif
-
                         <div class="user-details">
                             <h4>{{ Auth::user()->name }}</h4>
                             <p>{{ Auth::user()->email }}</p>
@@ -166,8 +178,7 @@
                     </a>
 
                     <form action="{{ route('logout') }}" method="POST" style="margin: 0;">
-                        @csrf 
-                        <button type="submit" class="logout-btn">Logout</button>
+                        @csrf <button type="submit" class="logout-btn">Logout</button>
                     </form>
                 </div>
             </div>
@@ -203,6 +214,37 @@
                 </div>
             </div>
 
+            @php 
+                $featuredBooks = collect($books)->take(5); 
+            @endphp
+            
+            @if($featuredBooks->count() > 0)
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    @foreach($featuredBooks as $book)
+                    <div class="swiper-slide" style="background-image: url('{{ $book['cover_image'] ? asset('storage/' . $book['cover_image']) : 'https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=1000&q=80' }}');">
+                        <div class="swiper-overlay"></div>
+                        <div class="swiper-content">
+                            <span class="swiper-tag">Buku Pilihan</span>
+                            <h2 class="swiper-title">{{ $book['title'] }}</h2>
+                            <p class="swiper-author">Karya: {{ $book['author'] }}</p>
+                            @if($book['available']) 
+                                <button onclick="openModal('{{ $book['id'] }}', '{{ addslashes($book['title']) }}')" class="swiper-btn">
+                                    📖 Pinjam Sekarang
+                                </button>
+                            @else
+                                <button class="swiper-btn" style="background: #ef4444; color:white; cursor:not-allowed;">❌ Sedang Habis</button>
+                            @endif
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-next" style="color: white; transform: scale(0.7);"></div>
+                <div class="swiper-button-prev" style="color: white; transform: scale(0.7);"></div>
+            </div>
+            @endif
+
             <div class="stats-bar">
                 <div class="stat-item">
                     <h4>{{ $books->count() }}</h4>
@@ -237,7 +279,7 @@
                         <p class="book-author">{{ $book['author'] }}</p>
                         <span class="book-category">{{ $book['category'] }}</span>
                         
-                        <div class="book-rating" style="display: flex; justify-content: space-between; align-items: center;">
+                        <div class="book-rating" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
                             <div>
                                 <span style="color: #f59e0b;">⭐ {{ $book['rating'] }}</span>
                                 <span style="font-size: 0.8rem; color: var(--text-muted);">({{ $book['reviews'] }})</span>
@@ -285,26 +327,21 @@
         </div>
     </div>
 
-    {{-- MODAL SPOILER BACAAN BUKU --}}
     <div id="spoilerModal" class="modal-overlay">
         <div class="modal-content" style="max-width: 600px;">
             <h2 class="modal-title">👀 Cuplikan Bacaan</h2>
             <p id="spoilerBookTitle" class="modal-subtitle" style="font-weight: bold; color: var(--primary);">Judul Buku</p>
-            
             <div id="spoilerText" class="spoiler-text-area"></div>
-
             <div class="modal-actions">
                 <button type="button" onclick="closeSpoilerModal()" class="btn btn-cancel" style="width: 100%;">Tutup</button>
             </div>
         </div>
     </div>
 
-    {{-- MODAL PEMINJAMAN --}}
     <div id="loanModal" class="modal-overlay">
         <div class="modal-content">
             <h2 class="modal-title">Konfirmasi Peminjaman</h2>
             <p id="modalBookTitle" class="modal-subtitle">Judul Buku</p>
-            
             <form action="{{ route('loans.store') }}" method="POST">
                 @csrf
                 <input type="hidden" name="book_id" id="modalBookId">
@@ -312,7 +349,7 @@
                     <label class="form-label">Durasi Peminjaman (Hari)</label>
                     <input type="number" name="duration" min="1" max="14" value="7" class="form-input" required>
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="margin-top: 1rem;">
                     <label class="form-label">Catatan (Opsional)</label>
                     <input type="text" name="notes" placeholder="Contoh: Untuk tugas sekolah" class="form-input">
                 </div>
@@ -324,12 +361,10 @@
         </div>
     </div>
 
-    {{-- MODAL ULASAN --}}
     <div id="reviewModal" class="modal-overlay">
         <div class="modal-content">
             <h2 class="modal-title">Berikan Ulasan</h2>
             <p id="reviewBookTitle" class="modal-subtitle">Judul Buku</p>
-            
             <form action="{{ route('reviews.store') }}" method="POST">
                 @csrf
                 <input type="hidden" name="book_id" id="reviewBookId">
@@ -343,7 +378,7 @@
                         <input type="radio" id="star1" name="rating" value="1" /><label for="star1">★</label>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="margin-top: 1rem;">
                     <label class="form-label">Komentar</label>
                     <textarea name="comment" class="form-input" rows="3" placeholder="Bagaimana pendapatmu tentang buku ini?"></textarea>
                 </div>
@@ -356,6 +391,7 @@
     </div>
 
     <script>
+        // THEME LOGIC
         const html = document.documentElement;
         const themeBtn = document.getElementById('themeBtn');
         const savedTheme = localStorage.getItem('theme') || 'light';
@@ -371,7 +407,7 @@
         }
         function updateIcon(theme) { themeBtn.innerText = theme === 'dark' ? '☀️' : '🌙'; }
 
-        // MENGATUR SEMUA MODAL
+        // MODAL LOGIC
         const modal = document.getElementById('loanModal');
         const reviewModal = document.getElementById('reviewModal');
         const spoilerModal = document.getElementById('spoilerModal');
@@ -404,6 +440,7 @@
             if (e.target == spoilerModal) closeSpoilerModal();
         }
 
+        // SEARCH & FILTER LOGIC
         const searchInput = document.getElementById('searchInput');
         const categoryFilter = document.getElementById('categoryFilter');
         const bookCards = document.querySelectorAll('.book-card');
@@ -422,6 +459,27 @@
         }
         searchInput.addEventListener('input', filterBooks);
         categoryFilter.addEventListener('change', filterBooks);
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        var swiper = new Swiper(".mySwiper", {
+            spaceBetween: 30,
+            centeredSlides: true,
+            autoplay: {
+                delay: 3500, // Otomatis geser tiap 3.5 detik
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            effect: "fade", // Efek memudar sinematik
+        });
     </script>
 </body>
 </html>
