@@ -153,10 +153,19 @@
                 <div class="user-menu">
                     <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" title="Ganti Mode">🌙</button>
 
-                    <div class="user-info">
-                        <div class="user-avatar">{{ strtoupper(substr($user->name, 0, 1)) }}</div>
-                        <div class="user-details"><h4>{{ $user->name }}</h4><p>{{ $user->email }}</p></div>
-                    </div>
+                    <a href="{{ route('profile.edit') }}" class="user-info" style="cursor: pointer; transition: opacity 0.2s; text-decoration: none;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+                        
+                        @if(Auth::user()->avatar)
+                            <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="Profile" style="width: 3.2rem; height: 3.2rem; border-radius: 50%; object-fit: cover;">
+                        @else
+                            <div class="user-avatar">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</div>
+                        @endif
+
+                        <div class="user-details">
+                            <h4>{{ Auth::user()->name }}</h4>
+                            <p>{{ Auth::user()->email }}</p>
+                        </div>
+                    </a>
                     <form action="/logout" method="POST" style="margin: 0;">
                         @csrf <button type="submit" class="logout-btn">Logout</button>
                     </form>
