@@ -15,6 +15,9 @@ use App\Http\Controllers\AdminReviewController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\ProfileController;
 
+// [TAMBAHAN] Import QuoteController
+use App\Http\Controllers\QuoteController;
+
 // Import class untuk verifikasi email
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
@@ -40,7 +43,6 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware(['auth'])->group(function () {
 
     // 1. Halaman Pemberitahuan (FIX ERROR verification.notice)
-    // Ini halaman yang muncul kalau user belum verifikasi email
     Route::get('/email/verify', function () {
         return view('auth.verify-email'); 
     })->name('verification.notice');
@@ -70,6 +72,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     
     // Fitur Utama (Koleksi & Peminjaman)
     Route::get('/koleksi-buku', [BookCollectionController::class, 'index'])->name('books.collection');
+
+    // Fitur Utama (Koleksi & Peminjaman)
+    Route::get('/koleksi-buku', [BookCollectionController::class, 'index'])->name('books.collection');
+    
+    // [TAMBAHAN] Rute Halaman Detail Buku
+    Route::get('/buku/{id}', [BookCollectionController::class, 'show'])->name('books.show');
     
     // === RUTE PEMINJAMAN ===
     Route::get('/peminjaman', [LoanController::class, 'index'])->name('loans');
@@ -90,6 +98,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Ulasan
     Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+
+    // ==========================================
+    // [TAMBAHAN] Rute Fitur Kutipan (Quotes)
+    // ==========================================
+    Route::post('/quotes', [QuoteController::class, 'store'])->name('quotes.store');
 });
 
 // 4. KHUSUS ADMIN

@@ -191,8 +191,8 @@
         document.addEventListener("DOMContentLoaded", function() {
             const ctx = document.getElementById('readingChart').getContext('2d');
             
-            // PERBAIKAN: Menggunakan {!! json_encode() !!} murni agar tidak error Parse
-            const monthlyData = {!! json_encode($monthlyLoans ?? [0,0,0,0,0,0,0,0,0,0,0,0]) !!};
+            // PERBAIKAN FINAL: Menggunakan PHP murni yang 100% aman dari error Blade
+            const monthlyData = <?php echo json_encode($monthlyLoans ?? [0,0,0,0,0,0,0,0,0,0,0,0]); ?>;
 
             new Chart(ctx, {
                 type: 'bar',

@@ -44,4 +44,25 @@ class BookCollectionController extends Controller
 
         return view('koleksi-buku', compact('user', 'books'));
     }
+
+    /**
+     * Menampilkan halaman detail buku beserta rekomendasi pintar.
+     */
+    public function show($id)
+    {
+        $user = Auth::user();
+        
+        // Ambil data buku beserta ulasan komunitasnya
+        $book = Book::with(['reviews.user'])->findOrFail($id);
+
+        // ALGORITMA REKOMENDASI PINTAR:
+        // Cari buku dengan kategori yang SAMA, kecualikan buku yang sedang dibuka, ambil 4 secara acak.
+        $recommendations = Book::where('category', $book->category)
+                               ->where('id', '!=', $book->id)
+                               ->inRandomOrder()
+                               ->take(4)
+                               ->get();
+
+        return view('detail-buku', compact('user', 'book', 'recommendations'));
+    }
 }

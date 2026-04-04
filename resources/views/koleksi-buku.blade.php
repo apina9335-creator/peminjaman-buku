@@ -105,10 +105,14 @@
         .books-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.8rem; margin-bottom: 2rem; }
         .book-card { background: var(--bg-card); border-radius: 1.2rem; overflow: hidden; box-shadow: 0 4px 15px var(--shadow); transition: all 0.4s; border: 1px solid var(--border-color); display: flex; flex-direction: column; }
         .book-card:hover { transform: translateY(-12px); box-shadow: 0 20px 40px var(--shadow); }
-        .book-cover { width: 100%; height: 260px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 5rem; font-weight: 700; position: relative; overflow: hidden; }
+        
+        /* TAMBAHAN: Hover efek untuk link cover */
+        .book-cover-link { display: block; width: 100%; height: 260px; text-decoration: none; }
+        .book-cover { width: 100%; height: 100%; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 5rem; font-weight: 700; position: relative; overflow: hidden; }
         
         .book-info { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
-        .book-info h3 { font-size: 1.05rem; color: var(--text-main); margin-bottom: 0.5rem; line-height: 1.5; font-weight: 700; }
+        .book-info h3 { font-size: 1.05rem; color: var(--text-main); margin-bottom: 0.5rem; line-height: 1.5; font-weight: 700; transition: 0.2s; }
+        .book-info h3:hover { color: var(--primary); }
         .book-author { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem; }
         .book-category { display: inline-block; background: var(--primary-light); color: var(--primary); padding: 0.3rem 0.8rem; border-radius: 0.5rem; font-size: 0.75rem; font-weight: 600; margin-bottom: 1rem; width: fit-content; }
         
@@ -267,15 +271,21 @@
             <div class="books-grid">
                 @foreach($books as $book)
                 <div class="book-card" data-category="{{ $book['category'] }}" data-title="{{ strtolower($book['title']) }}" data-author="{{ strtolower($book['author']) }}">
-                    <div class="book-cover">
-                        @if($book['cover_image'])
-                            <img src="{{ asset('storage/' . $book['cover_image']) }}" alt="{{ $book['title'] }}" style="width: 100%; height: 100%; object-fit: cover;">
-                        @else
-                            <div class="book-cover-content">{{ strtoupper(substr($book['title'], 0, 1)) }}</div>
-                        @endif
-                    </div>
+                    
+                    <a href="{{ route('books.show', $book['id']) }}" class="book-cover-link">
+                        <div class="book-cover">
+                            @if($book['cover_image'])
+                                <img src="{{ asset('storage/' . $book['cover_image']) }}" alt="{{ $book['title'] }}" style="width: 100%; height: 100%; object-fit: cover;">
+                            @else
+                                <div class="book-cover-content">{{ strtoupper(substr($book['title'], 0, 1)) }}</div>
+                            @endif
+                        </div>
+                    </a>
+
                     <div class="book-info">
-                        <h3>{{ $book['title'] }}</h3>
+                        <a href="{{ route('books.show', $book['id']) }}" style="text-decoration: none; color: inherit;">
+                            <h3>{{ $book['title'] }}</h3>
+                        </a>
                         <p class="book-author">{{ $book['author'] }}</p>
                         <span class="book-category">{{ $book['category'] }}</span>
                         
