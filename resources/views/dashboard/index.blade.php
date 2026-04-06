@@ -106,6 +106,8 @@
 
         .form-select, .form-textarea { width: 100%; padding: 0.85rem 1.25rem; border-radius: 0.75rem; margin-bottom: 1rem; border: 2px solid var(--border-color); background: var(--input-bg); color: var(--text-main); font-family: inherit; font-size: 0.95rem; transition: 0.3s; }
         .form-select:focus, .form-textarea:focus { border-color: var(--primary); outline: none; }
+        
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem; }
     </style>
 </head>
 <body>
@@ -126,6 +128,19 @@
             <li><a href="/favorit"><span class="sidebar-menu-icon">❤️</span><span>Favorit</span></a></li>
             <li><a href="{{ route('history') }}"><span class="sidebar-menu-icon">📋</span><span>Riwayat</span></a></li>
             <li><a href="{{ route('settings') }}"><span class="sidebar-menu-icon">⚙️</span><span>Pengaturan</span></a></li>
+            
+            @if(Auth::user()->is_admin && request()->routeIs('dashboard'))
+            <li style="margin-top: 2rem;">
+                <a href="{{ route('admin.dashboard') }}" style="background: var(--danger); color: white; justify-content: center; font-weight: 700; border-radius: 0.75rem; padding: 0.85rem 1rem; display: flex; align-items: center; gap: 1rem; text-decoration: none;">
+                    <span class="sidebar-menu-icon">🛡️</span><span>Panel Admin</span>
+                </a>
+            </li>
+            <li style="margin-top: 0.75rem;">
+                <a href="{{ route('admin.loans.active') }}" style="background: var(--warning); color: white; justify-content: center; font-weight: 700; border-radius: 0.75rem; padding: 0.85rem 1rem; display: flex; align-items: center; gap: 1rem; text-decoration: none;">
+                    <span class="sidebar-menu-icon">📊</span><span>Monitoring</span>
+                </a>
+            </li>
+            @endif
         </ul>
     </aside>
 
@@ -199,7 +214,7 @@
                 </div>
             </div>
 
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem;">
+            <div class="grid-2">
                 <div class="card" style="margin-bottom: 0;">
                     <h3>✨ Bagikan Kutipan</h3>
                     @if(isset($activeLoans) && $activeLoans->count() > 0)

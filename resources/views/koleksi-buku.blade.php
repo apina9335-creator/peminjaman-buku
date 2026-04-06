@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Koleksi Buku - PinjamBuku</title>
+    <title>Koleksi Buku - BookNook</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
@@ -45,40 +45,33 @@
             --gray-300: #475569;
         }
 
-        /* === STYLE DASAR === */
         * { margin: 0; padding: 0; box-sizing: border-box; transition: background-color 0.3s, color 0.3s, border-color 0.3s; }
         body { font-family: 'Instrument Sans', sans-serif; background: var(--bg-body); color: var(--text-main); line-height: 1.6; display: flex; overflow-x: hidden; }
         
-        /* SIDEBAR */
         .sidebar { width: 280px; background: var(--bg-sidebar); color: white; padding: 2rem 1.5rem; position: fixed; height: 100vh; overflow-y: auto; z-index: 100; box-shadow: 4px 0 15px rgba(0,0,0,0.15); }
-        .sidebar-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 3rem; font-size: 1.5rem; font-weight: 700; }
-        .sidebar-logo { width: 2.8rem; height: 2.8rem; background: rgba(255,255,255,0.25); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+        .sidebar-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 3rem; font-size: 1.6rem; font-weight: 800; letter-spacing: -0.5px; }
+        .sidebar-logo { width: 2.8rem; height: 2.8rem; background: rgba(255,255,255,0.25); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .sidebar-menu { list-style: none; }
         .sidebar-menu li { margin-bottom: 0.75rem; }
-        .sidebar-menu a { display: flex; align-items: center; gap: 1rem; color: rgba(255,255,255,0.85); text-decoration: none; padding: 0.85rem 1rem; border-radius: 0.75rem; font-weight: 500; }
+        .sidebar-menu a { display: flex; align-items: center; gap: 1rem; color: rgba(255,255,255,0.85); text-decoration: none; padding: 0.85rem 1rem; border-radius: 0.75rem; font-weight: 500; transition: 0.3s; }
         .sidebar-menu a:hover, .sidebar-menu a.active { background: rgba(255,255,255,0.2); color: white; transform: translateX(4px); }
         .sidebar-menu-icon { font-size: 1.3rem; width: 1.5rem; text-align: center; }
         
-        /* NAVBAR & MAIN CONTENT */
         .main-content { flex: 1; margin-left: 280px; min-height: 100vh; display: flex; flex-direction: column; max-width: calc(100vw - 280px); }
         nav { background: var(--bg-card); box-shadow: 0 4px 12px var(--shadow); position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--border-color); width: 100%; }
-        .nav-container { max-width: 1400px; margin: 0 auto; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+        .nav-container { max-width: 1400px; margin: 0 auto; padding: 1rem 2.5rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
         
-        /* === KUNCI RAHASIA: PROFIL ANTI GEPENG === */
         .user-menu { display: flex; align-items: center; gap: 1rem; flex-shrink: 0; }
         
         .user-info { display: flex; align-items: center; gap: 0.8rem; text-decoration: none; background: var(--bg-card); padding: 0.4rem 1.2rem 0.4rem 0.4rem; border-radius: 3rem; border: 1px solid var(--border-color); transition: 0.2s; box-shadow: 0 2px 8px var(--shadow); max-width: 260px; }
         .user-info:hover { background: var(--gray-100); transform: translateY(-2px); }
         
-        /* flex: 0 0 40px memastikan elemen ini TIDAK BOLEH MEMBESAR dan TIDAK BOLEH MENYUSUT */
         .user-avatar-container { flex: 0 0 40px; width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.1rem; overflow: hidden; }
         .user-avatar-container img { width: 100%; height: 100%; object-fit: cover; display: block; }
         
-        /* min-width: 0; adalah kunci agar teks mau terpotong (ellipsis) tanpa menggencet elemen lain */
         .user-details { display: flex; flex-direction: column; justify-content: center; min-width: 0; flex: 1; }
         .user-details h4 { font-size: 0.95rem; color: var(--text-main); margin: 0; font-weight: 700; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .user-details p { font-size: 0.75rem; color: var(--text-muted); margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        /* ========================================================= */
 
         .theme-toggle { background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main); padding: 0.5rem; border-radius: 50%; cursor: pointer; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; box-shadow: 0 2px 8px var(--shadow); transition: 0.2s; flex-shrink: 0; }
         .theme-toggle:hover { background: var(--gray-100); }
@@ -86,7 +79,6 @@
         .logout-btn { padding: 0.6rem 1.2rem; background: linear-gradient(135deg, var(--danger) 0%, #dc2626 100%); color: white; border: none; border-radius: 2rem; cursor: pointer; font-weight: 600; font-size: 0.9rem; white-space: nowrap; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3); transition: 0.2s; flex-shrink: 0; }
         .logout-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4); }
 
-        /* KONTEN KOLEKSI BUKU */
         .container { max-width: 1400px; margin: 0 auto; padding: 2.5rem; flex: 1; width: 100%; }
         
         .page-header { margin-bottom: 2.5rem; display: flex; justify-content: space-between; align-items: center; gap: 2rem; flex-wrap: wrap; }
@@ -100,7 +92,6 @@
         .filter-select { flex-shrink: 0; padding: 0.85rem 1.25rem; border: 2px solid var(--border-color); border-radius: 0.75rem; background: var(--input-bg); color: var(--text-main); cursor: pointer; font-size: 0.95rem; font-family: inherit; transition: 0.3s; box-shadow: 0 2px 5px var(--shadow); }
         .filter-select:focus { border-color: var(--primary); outline: none; }
         
-        /* SWIPER CAROUSEL STYLE */
         .swiper { width: 100%; height: 350px; border-radius: 1.5rem; margin-bottom: 2.5rem; overflow: hidden; box-shadow: 0 10px 25px var(--shadow); }
         .swiper-slide { position: relative; display: flex; align-items: flex-end; padding: 3rem; color: white; background-color: #1e293b; background-size: cover; background-position: center; }
         .swiper-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.1) 100%); z-index: 1; }
@@ -113,7 +104,6 @@
         .swiper-pagination-bullet { background: white; opacity: 0.5; }
         .swiper-pagination-bullet-active { background: var(--primary); opacity: 1; width: 25px; border-radius: 5px; transition: 0.3s; }
         
-        /* GRID BUKU */
         .stats-bar { background: var(--bg-card); padding: 1.5rem; border-radius: 1.2rem; margin-bottom: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; box-shadow: 0 4px 15px var(--shadow); border: 1px solid var(--border-color); }
         .stat-item { text-align: center; }
         .stat-item h4 { font-size: 2rem; color: var(--primary); margin-bottom: 0.5rem; font-weight: 700; }
@@ -141,7 +131,6 @@
         .btn-spoiler { width: 100%; padding: 0.5rem; border: 1.5px solid var(--primary); border-radius: 0.5rem; color: var(--primary); background: transparent; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 0.85rem; text-align: center; display: block; margin-top: 10px; }
         .btn-spoiler:hover { background: var(--primary-light); }
 
-        /* MODAL */
         .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; pointer-events: none; transition: all 0.3s; }
         .modal-overlay.active { opacity: 1; pointer-events: all; }
         .modal-content { background: var(--bg-card); padding: 2rem; border-radius: 1.5rem; width: 90%; max-width: 450px; transform: translateY(20px); transition: all 0.3s; border: 1px solid var(--border-color); color: var(--text-main); }
@@ -166,23 +155,40 @@
 
     <aside class="sidebar">
         <div class="sidebar-header">
-            <div class="sidebar-logo">📚</div>
-            <span>PinjamBuku</span>
+            <div class="sidebar-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 1.6rem; height: 1.6rem;">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+                </svg>
+            </div>
+            <span>BookNook</span>
         </div>
         <ul class="sidebar-menu">
-            <li><a href="{{ route('dashboard') }}"><span class="sidebar-menu-icon">🏠</span><span>Dashboard</span></a></li>
+            <li><a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}"><span class="sidebar-menu-icon">🏠</span><span>Dashboard</span></a></li>
             <li><a href="{{ route('books.collection') }}" class="active"><span class="sidebar-menu-icon">📖</span><span>Koleksi Buku</span></a></li>
-            <li><a href="{{ route('loans') }}"><span class="sidebar-menu-icon">📤</span><span>Peminjaman</span></a></li>
-            <li><a href="/favorit"><span class="sidebar-menu-icon">❤️</span><span>Favorit</span></a></li>
-            <li><a href="{{ route('history') }}"><span class="sidebar-menu-icon">📋</span><span>Riwayat</span></a></li>
-            <li><a href="{{ route('settings') }}"><span class="sidebar-menu-icon">⚙️</span><span>Pengaturan</span></a></li>
+            <li><a href="{{ route('loans') }}" class="{{ request()->routeIs('loans') ? 'active' : '' }}"><span class="sidebar-menu-icon">📤</span><span>Peminjaman</span></a></li>
+            <li><a href="/favorit" class="{{ request()->is('favorit') ? 'active' : '' }}"><span class="sidebar-menu-icon">❤️</span><span>Favorit</span></a></li>
+            <li><a href="{{ route('history') }}" class="{{ request()->routeIs('history') ? 'active' : '' }}"><span class="sidebar-menu-icon">📋</span><span>Riwayat</span></a></li>
+            <li><a href="{{ route('settings') }}" class="{{ request()->routeIs('settings') ? 'active' : '' }}"><span class="sidebar-menu-icon">⚙️</span><span>Pengaturan</span></a></li>
+            
+            @if(Auth::user()->is_admin && request()->routeIs('dashboard'))
+            <li style="margin-top: 2rem;">
+                <a href="{{ route('admin.dashboard') }}" style="background: var(--danger); color: white; justify-content: center; font-weight: 700; border-radius: 0.75rem; padding: 0.85rem 1rem; display: flex; align-items: center; gap: 1rem;">
+                    <span class="sidebar-menu-icon">🛡️</span><span>Panel Admin</span>
+                </a>
+            </li>
+            <li style="margin-top: 0.75rem;">
+                <a href="{{ route('admin.loans.active') }}" style="background: var(--warning); color: white; justify-content: center; font-weight: 700; border-radius: 0.75rem; padding: 0.85rem 1rem; display: flex; align-items: center; gap: 1rem;">
+                    <span class="sidebar-menu-icon">📊</span><span>Monitoring</span>
+                </a>
+            </li>
+            @endif
         </ul>
     </aside>
 
     <div class="main-content">
         <nav>
             <div class="nav-container">
-                <div class="nav-left" style="font-weight: 600; color: var(--text-main);">🔔 Notifikasi</div>
+                <div class="nav-left" style="font-weight: 600; color: var(--text-main); font-size: 1.5rem;">Koleksi Buku</div>
                 
                 <div class="user-menu">
                     <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" title="Ganti Mode">🌙</button>
@@ -434,7 +440,7 @@
             localStorage.setItem('theme', newTheme);
             updateIcon(newTheme);
         }
-        function updateIcon(theme) { themeBtn.innerText = theme === 'dark' ? '☀️' : '🌙'; }
+        function updateIcon(theme) { if(themeBtn) themeBtn.innerText = theme === 'dark' ? '☀️' : '🌙'; }
 
         const modal = document.getElementById('loanModal');
         const reviewModal = document.getElementById('reviewModal');
