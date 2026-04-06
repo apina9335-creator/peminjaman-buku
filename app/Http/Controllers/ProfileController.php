@@ -57,4 +57,16 @@ class ProfileController extends Controller
         // 5. Redirect langsung ke Dashboard
         return redirect()->route('dashboard')->with('success', 'Profil berhasil diperbarui!');
     }
+    // Menampilkan profil publik user lain (Cek Akun)
+    public function show($id)
+    {
+        $user = Auth::user(); // Data user kita yang sedang login (untuk navbar)
+        $targetUser = \App\Models\User::findOrFail($id); // Data user yang profilnya sedang kita intip
+        
+        // Hitung statistik user tersebut
+        $totalReviews = \App\Models\Review::where('user_id', $id)->count();
+        $totalLoans = \App\Models\Loan::where('user_id', $id)->count();
+
+        return view('profile.show', compact('user', 'targetUser', 'totalReviews', 'totalLoans'));
+    }
 }

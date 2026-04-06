@@ -104,7 +104,7 @@
         .review-item:last-child { border-bottom: none; }
         .review-header { display: flex; justify-content: space-between; margin-bottom: 0.8rem; align-items: center; }
         .reviewer-name { font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem; }
-        .review-text { color: var(--text-main); line-height: 1.6; }
+        .review-text { color: var(--text-main); line-height: 1.6; margin-top: 0.5rem; }
     </style>
 </head>
 <body>
@@ -233,21 +233,26 @@
             @if($book->reviews->count() > 0)
                 @foreach($book->reviews as $review)
                 <div class="review-item">
+                    
                     <div class="review-header">
-                        <div class="reviewer-name">
-                            <div style="width: 32px; height: 32px; background: var(--secondary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">
-                                {{ strtoupper(substr($review->user->name, 0, 1)) }}
-                            </div>
-                            {{ $review->user->name }}
+                        <div class="reviewer">
+                            <a href="{{ route('user.show', $review->user->id) }}" style="display: flex; align-items: center; gap: 0.8rem; text-decoration: none; color: inherit; cursor: pointer;">
+                                <div class="review-avatar" style="overflow: hidden; width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">
+                                    @if($review->user->avatar)
+                                        <img src="{{ asset('storage/' . $review->user->avatar) }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                    @else
+                                        {{ strtoupper(substr($review->user->name, 0, 1)) }}
+                                    @endif
+                                </div>
+                                <strong style="font-size: 1.1rem; transition: 0.2s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='inherit'">{{ $review->user->name }}</strong>
+                            </a>
                         </div>
-                        <span style="color: var(--warning); font-size: 1.1rem; letter-spacing: 2px;">
-                            {{ str_repeat('★', $review->rating) }}{{ str_repeat('☆', 5 - $review->rating) }}
-                        </span>
+                        <span style="color: var(--warning); font-weight: 700;">{{ str_repeat('★', $review->rating) }}{{ str_repeat('☆', 5 - $review->rating) }}</span>
                     </div>
+
                     <p class="review-text">{{ $review->comment }}</p>
                     
                     <div class="review-actions" style="display: flex; gap: 1.5rem; align-items: center; margin-top: 1rem;">
-                        
                         <form action="{{ route('reviews.like', $review->id) }}" method="POST" style="margin: 0;">
                             @csrf
                             @php
@@ -268,10 +273,16 @@
                             @foreach($review->replies as $reply)
                                 <div style="margin-bottom: 1rem;">
                                     <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.4rem;">
-                                        <div style="width: 24px; height: 24px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: bold;">
-                                            {{ strtoupper(substr($reply->user->name, 0, 1)) }}
-                                        </div>
-                                        <strong style="font-size: 0.9rem; color: var(--text-main);">{{ $reply->user->name }}</strong>
+                                        <a href="{{ route('user.show', $reply->user->id) }}" style="display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: inherit;">
+                                            <div style="width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; font-size: 0.7rem; display: flex; align-items: center; justify-content: center; font-weight: bold; overflow: hidden; flex-shrink: 0;">
+                                                @if($reply->user->avatar)
+                                                    <img src="{{ asset('storage/' . $reply->user->avatar) }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                                @else
+                                                    {{ strtoupper(substr($reply->user->name, 0, 1)) }}
+                                                @endif
+                                            </div>
+                                            <strong style="font-size: 0.9rem; transition: 0.2s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='inherit'">{{ $reply->user->name }}</strong>
+                                        </a>
                                         <span style="font-size: 0.75rem; color: var(--text-muted);">• {{ $reply->created_at->diffForHumans() }}</span>
                                     </div>
                                     <p style="font-size: 0.95rem; color: var(--text-main); margin-left: 2.3rem;">{{ $reply->reply_text }}</p>
@@ -300,7 +311,6 @@
         const savedTheme = localStorage.getItem('theme') || 'light';
         document.documentElement.setAttribute('data-theme', savedTheme);
 
-        // Fungsi untuk memunculkan/menyembunyikan form balas komentar
         function toggleReplyForm(reviewId) {
             const form = document.getElementById('reply-form-' + reviewId);
             if (form.style.display === 'none' || form.style.display === '') {

@@ -6,7 +6,6 @@
     <title>Koleksi Buku - PinjamBuku</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700&display=swap" rel="stylesheet" />
-    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
     <style>
@@ -20,7 +19,6 @@
             --border-color: #e5e7eb;
             --shadow: rgba(0,0,0,0.06);
             --input-bg: #ffffff;
-            
             --primary: #3b82f6; 
             --primary-light: #dbeafe;
             --primary-dark: #1e40af;
@@ -41,7 +39,6 @@
             --border-color: #334155;
             --shadow: rgba(0,0,0,0.3);
             --input-bg: #0f172a;
-            
             --primary-light: #1e3a8a;
             --gray-100: #334155;
             --gray-200: #334155;
@@ -50,7 +47,7 @@
 
         /* === STYLE DASAR === */
         * { margin: 0; padding: 0; box-sizing: border-box; transition: background-color 0.3s, color 0.3s, border-color 0.3s; }
-        body { font-family: 'Instrument Sans', sans-serif; background: var(--bg-body); color: var(--text-main); line-height: 1.6; display: flex; }
+        body { font-family: 'Instrument Sans', sans-serif; background: var(--bg-body); color: var(--text-main); line-height: 1.6; display: flex; overflow-x: hidden; }
         
         /* SIDEBAR */
         .sidebar { width: 280px; background: var(--bg-sidebar); color: white; padding: 2rem 1.5rem; position: fixed; height: 100vh; overflow-y: auto; z-index: 100; box-shadow: 4px 0 15px rgba(0,0,0,0.15); }
@@ -63,35 +60,45 @@
         .sidebar-menu-icon { font-size: 1.3rem; width: 1.5rem; text-align: center; }
         
         /* NAVBAR & MAIN CONTENT */
-        .main-content { flex: 1; margin-left: 280px; min-height: 100vh; display: flex; flex-direction: column; }
-        nav { background: var(--bg-card); box-shadow: 0 4px 12px var(--shadow); position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--border-color); }
-        nav .container { max-width: 1400px; margin: 0 auto; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+        .main-content { flex: 1; margin-left: 280px; min-height: 100vh; display: flex; flex-direction: column; max-width: calc(100vw - 280px); }
+        nav { background: var(--bg-card); box-shadow: 0 4px 12px var(--shadow); position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--border-color); width: 100%; }
+        .nav-container { max-width: 1400px; margin: 0 auto; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
         
-        .user-menu { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+        /* === KUNCI RAHASIA: PROFIL ANTI GEPENG === */
+        .user-menu { display: flex; align-items: center; gap: 1rem; flex-shrink: 0; }
         
-        /* PERBAIKAN: Profil User tidak tergencet */
-        .user-info { display: flex; align-items: center; gap: 0.8rem; text-decoration: none; background: var(--gray-100); padding: 0.4rem 1.2rem 0.4rem 0.4rem; border-radius: 2rem; border: 1px solid var(--border-color); transition: 0.2s; }
-        .user-info:hover { background: var(--gray-200); }
-        .user-avatar { width: 2.8rem; height: 2.8rem; flex-shrink: 0; border-radius: 50%; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem; }
-        .user-details h4 { font-size: 0.95rem; color: var(--text-main); margin-bottom: 0.1rem; font-weight: 700; white-space: nowrap; }
-        .user-details p { font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; }
+        .user-info { display: flex; align-items: center; gap: 0.8rem; text-decoration: none; background: var(--bg-card); padding: 0.4rem 1.2rem 0.4rem 0.4rem; border-radius: 3rem; border: 1px solid var(--border-color); transition: 0.2s; box-shadow: 0 2px 8px var(--shadow); max-width: 260px; }
+        .user-info:hover { background: var(--gray-100); transform: translateY(-2px); }
         
-        .theme-toggle { background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main); padding: 0.5rem; border-radius: 50%; cursor: pointer; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; box-shadow: 0 2px 5px var(--shadow); }
-        .logout-btn { padding: 0.6rem 1.2rem; background: linear-gradient(135deg, var(--danger) 0%, #dc2626 100%); color: white; border: none; border-radius: 0.75rem; cursor: pointer; font-weight: 600; font-size: 0.9rem; white-space: nowrap; }
+        /* flex: 0 0 40px memastikan elemen ini TIDAK BOLEH MEMBESAR dan TIDAK BOLEH MENYUSUT */
+        .user-avatar-container { flex: 0 0 40px; width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.1rem; overflow: hidden; }
+        .user-avatar-container img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        
+        /* min-width: 0; adalah kunci agar teks mau terpotong (ellipsis) tanpa menggencet elemen lain */
+        .user-details { display: flex; flex-direction: column; justify-content: center; min-width: 0; flex: 1; }
+        .user-details h4 { font-size: 0.95rem; color: var(--text-main); margin: 0; font-weight: 700; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .user-details p { font-size: 0.75rem; color: var(--text-muted); margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        /* ========================================================= */
+
+        .theme-toggle { background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main); padding: 0.5rem; border-radius: 50%; cursor: pointer; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; box-shadow: 0 2px 8px var(--shadow); transition: 0.2s; flex-shrink: 0; }
+        .theme-toggle:hover { background: var(--gray-100); }
+        
+        .logout-btn { padding: 0.6rem 1.2rem; background: linear-gradient(135deg, var(--danger) 0%, #dc2626 100%); color: white; border: none; border-radius: 2rem; cursor: pointer; font-weight: 600; font-size: 0.9rem; white-space: nowrap; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3); transition: 0.2s; flex-shrink: 0; }
+        .logout-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4); }
 
         /* KONTEN KOLEKSI BUKU */
         .container { max-width: 1400px; margin: 0 auto; padding: 2.5rem; flex: 1; width: 100%; }
         
-        /* PERBAIKAN: Header & Search Box tidak terpotong */
-        .page-header { margin-bottom: 2.5rem; display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
-        .header-content { flex-shrink: 0; min-width: 200px; }
-        .header-content h1 { font-size: 2.2rem; color: var(--text-main); margin-bottom: 0.3rem; font-weight: 800; }
+        .page-header { margin-bottom: 2.5rem; display: flex; justify-content: space-between; align-items: center; gap: 2rem; flex-wrap: wrap; }
+        .header-content { flex-shrink: 0; }
+        .header-content h1 { font-size: 2.2rem; color: var(--text-main); margin-bottom: 0.3rem; font-weight: 800; line-height: 1.2; }
         .header-content p { color: var(--text-muted); font-size: 1rem; }
         
-        .search-box { display: flex; gap: 1rem; align-items: center; flex: 1; min-width: 320px; max-width: 650px; justify-content: flex-end; flex-wrap: wrap; }
-        .search-input { flex: 1; min-width: 250px; padding: 0.85rem 1.25rem; border: 2px solid var(--gray-300); border-radius: 0.75rem; font-size: 0.95rem; background: var(--input-bg); color: var(--text-main); font-family: inherit; }
-        .search-input:focus { border-color: var(--primary); outline: none; }
-        .filter-select { flex-shrink: 0; padding: 0.85rem 1.25rem; border: 2px solid var(--gray-300); border-radius: 0.75rem; background: var(--input-bg); color: var(--text-main); cursor: pointer; font-size: 0.95rem; font-family: inherit; }
+        .search-box { display: flex; gap: 1rem; align-items: center; flex: 1; max-width: 600px; min-width: 300px; justify-content: flex-end; flex-wrap: wrap; }
+        .search-input { flex: 1; min-width: 200px; padding: 0.85rem 1.25rem; border: 2px solid var(--border-color); border-radius: 0.75rem; font-size: 0.95rem; background: var(--input-bg); color: var(--text-main); font-family: inherit; transition: 0.3s; box-shadow: 0 2px 5px var(--shadow); }
+        .search-input:focus { border-color: var(--primary); outline: none; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15); }
+        .filter-select { flex-shrink: 0; padding: 0.85rem 1.25rem; border: 2px solid var(--border-color); border-radius: 0.75rem; background: var(--input-bg); color: var(--text-main); cursor: pointer; font-size: 0.95rem; font-family: inherit; transition: 0.3s; box-shadow: 0 2px 5px var(--shadow); }
+        .filter-select:focus { border-color: var(--primary); outline: none; }
         
         /* SWIPER CAROUSEL STYLE */
         .swiper { width: 100%; height: 350px; border-radius: 1.5rem; margin-bottom: 2.5rem; overflow: hidden; box-shadow: 0 10px 25px var(--shadow); }
@@ -142,7 +149,8 @@
         .modal-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-main); }
         .spoiler-text-area { background: var(--gray-100); padding: 1.5rem; border-radius: 1rem; border: 1px solid var(--gray-200); max-height: 350px; overflow-y: auto; font-size: 0.95rem; line-height: 1.7; white-space: pre-wrap; color: var(--text-main); margin-bottom: 1.5rem; text-align: justify; }
         .form-label { display: block; margin-bottom: 0.5rem; color: var(--text-main); font-weight: 600; font-size: 0.9rem; }
-        .form-input { width: 100%; padding: 0.85rem 1rem; border: 2px solid var(--gray-300); border-radius: 0.75rem; font-family: inherit; font-size: 1rem; background: var(--input-bg); color: var(--text-main); }
+        .form-input { width: 100%; padding: 0.85rem 1rem; border: 2px solid var(--border-color); border-radius: 0.75rem; font-family: inherit; font-size: 1rem; background: var(--input-bg); color: var(--text-main); transition: 0.3s; }
+        .form-input:focus { border-color: var(--primary); outline: none; }
         .modal-actions { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1rem; }
         .btn { padding: 0.75rem 1.5rem; border-radius: 0.75rem; font-weight: 600; border: none; cursor: pointer; }
         .btn-cancel { background: var(--gray-100); color: var(--text-main); }
@@ -173,18 +181,20 @@
 
     <div class="main-content">
         <nav>
-            <div class="container">
-                <div class="nav-left">🔔 Notifikasi</div>
+            <div class="nav-container">
+                <div class="nav-left" style="font-weight: 600; color: var(--text-main);">🔔 Notifikasi</div>
                 
                 <div class="user-menu">
                     <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" title="Ganti Mode">🌙</button>
 
                     <a href="{{ route('profile.edit') }}" class="user-info">
-                        @if(Auth::user()->avatar)
-                            <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="Profile" style="width: 2.8rem; height: 2.8rem; border-radius: 50%; object-fit: cover;">
-                        @else
-                            <div class="user-avatar">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</div>
-                        @endif
+                        <div class="user-avatar-container">
+                            @if(Auth::user()->avatar)
+                                <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="Profile">
+                            @else
+                                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                            @endif
+                        </div>
                         <div class="user-details">
                             <h4>{{ Auth::user()->name }}</h4>
                             <p>{{ Auth::user()->email }}</p>
