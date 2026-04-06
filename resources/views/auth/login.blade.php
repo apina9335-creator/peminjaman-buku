@@ -303,6 +303,12 @@
                 <p>Akses koleksi buku pilihan Anda</p>
             </div>
 
+            @if (session('status'))
+                <div class="alert alert-success" style="background: #d1fae5; color: #065f46; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
+                    ✅ {{ session('status') }}
+                </div>
+            @endif
+
             @if ($errors->any())
                 <div class="error-alert">
                     <strong>Gagal login:</strong> {{ $errors->first('email') }}
@@ -347,7 +353,7 @@
                         <input type="checkbox" name="remember" value="1" {{ old('remember') ? 'checked' : '' }}>
                         Ingat saya
                     </label>
-                    <a href="#" class="forgot-link">Lupa password?</a>
+                    <a href="{{ route('password.request') }}" class="forgot-link">Lupa password?</a>
                 </div>
 
                 <button type="submit" class="btn-login">Masuk</button>
