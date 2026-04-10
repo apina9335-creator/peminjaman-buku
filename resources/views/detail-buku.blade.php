@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Detail Buku - PinjamBuku</title>
-    <link rel="preconnect" href="https://fonts.bunny.net">
+    <title>Detail Buku - BookNook</title>
+    <link rel="preconnect" href="hps://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700&display=swap" rel="stylesheet" />
     <style>
         /* === KONFIGURASI WARNA === */
@@ -105,11 +105,21 @@
         .review-header { display: flex; justify-content: space-between; margin-bottom: 0.8rem; align-items: center; }
         .reviewer-name { font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem; }
         .review-text { color: var(--text-main); line-height: 1.6; margin-top: 0.5rem; }
+
+        /* MODAL STYLE */
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 1000; }
+        .modal-content { background: var(--bg-card); padding: 2rem; border-radius: 1.5rem; width: 90%; max-width: 450px; border: 1px solid var(--border-color); color: var(--text-main); box-shadow: 0 20px 40px rgba(0,0,0,0.2); animation: modalPop 0.3s ease-out; }
+        @keyframes modalPop { 0% { transform: scale(0.9); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        
+        .form-group { margin-bottom: 1.2rem; }
+        .form-label { display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.95rem; }
+        .form-input { width: 100%; padding: 0.85rem 1rem; border: 2px solid var(--border-color); border-radius: 0.75rem; background: var(--input-bg); color: var(--text-main); font-family: inherit; font-size: 1rem; transition: 0.3s; }
+        .form-input:focus { border-color: var(--primary); outline: none; }
     </style>
 </head>
 <body>
     <aside class="sidebar">
-        <div class="sidebar-header"><div class="sidebar-logo">📚</div><span>PinjamBuku</span></div>
+        <div class="sidebar-header"><div class="sidebar-logo">📚</div><span>BookNook</span></div>
         <ul class="sidebar-menu">
             <li><a href="{{ route('dashboard') }}">🏠<span>Dashboard</span></a></li>
             <li><a href="{{ route('books.collection') }}" class="active">📖<span>Koleksi Buku</span></a></li>
@@ -144,6 +154,11 @@
                 ✅ <strong>Berhasil!</strong> {{ session('success') }}
             </div>
         @endif
+        @if(session('error'))
+            <div style="background: rgba(239, 68, 68, 0.1); color: var(--danger); padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem; border: 1px solid var(--danger);">
+                ❌ <strong>Gagal!</strong> {{ session('error') }}
+            </div>
+        @endif
 
         <div class="card detail-grid">
             <div>
@@ -156,12 +171,7 @@
                 </div>
                 
                 @if($book->stock > 0)
-                    <form action="{{ route('loans.store') }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="book_id" value="{{ $book->id }}">
-                        <input type="hidden" name="duration" value="7">
-                        <button type="submit" class="btn btn-primary">📖 Pinjam Buku Ini (7 Hari)</button>
-                    </form>
+                    <button onclick="openLoanModal()" class="btn btn-primary">📖 Pinjam Buku Ini (7 Hari)</button>
                 @else
                     <button class="btn" style="background: var(--gray-200); color: var(--text-muted); margin-top: 2rem; cursor: not-allowed;" disabled>❌ Stok Habis</button>
                 @endif
@@ -307,16 +317,71 @@
         </div>
     </div>
 
+    <div id="loanModal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--text-main);">Konfirmasi Peminjaman</h2>
+            <p style="color: var(--primary); font-weight: 700; margin-bottom: 1.5rem; font-size: 1.1rem;">{{ $book->title }}</p>
+            
+            <form action="{{ route('loans.store') }}" method="POST">
+                @csrf
+                <input type="hidden" name="book_id" value="{{ $book->id }}">
+                
+                <div class="form-group">
+                    <label class="form-label">Durasi Peminjaman</label>
+                    <select name="duration" class="form-input" required>
+                        <option value="3">3 Hari</option>
+                        <option value="7" selected>7 Hari (Standar)</option>
+                        <option value="14">14 Hari</option>
+                    </select>
+                </div>
+                
+                <div class="form-group" style="margin-top: 1rem;">
+                    <label class="form-label">Catatan (Opsional)</label>
+                    <input type="text" name="notes" placeholder="Contoh: Untuk tugas sekolah" class="form-input">
+                </div>
+                
+                <div style="background: rgba(245, 158, 11, 0.1); padding: 1rem; border-radius: 0.75rem; margin-top: 1.5rem; font-size: 0.85rem; border-left: 4px solid var(--warning); color: var(--text-main);">
+                    ℹ️ <strong>Perhatian:</strong> Keterlambatan pengembalian buku akan dikenakan sanksi berupa pembekuan akun (tidak bisa meminjam).
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem;">
+                    <button type="button" onclick="closeLoanModal()" class="btn" style="background: var(--gray-200); color: var(--text-main); padding: 0.8rem 1.5rem; min-width: auto;">Batal</button>
+                    <button type="submit" class="btn btn-primary" style="padding: 0.8rem 1.5rem; min-width: auto; margin-top: 0;">Konfirmasi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
+        // Tema Terakhir
         const savedTheme = localStorage.getItem('theme') || 'light';
         document.documentElement.setAttribute('data-theme', savedTheme);
 
+        // Balas Ulasan
         function toggleReplyForm(reviewId) {
             const form = document.getElementById('reply-form-' + reviewId);
             if (form.style.display === 'none' || form.style.display === '') {
                 form.style.display = 'block';
             } else {
                 form.style.display = 'none';
+            }
+        }
+
+        // --- KONTROL MODAL PEMINJAMAN ---
+        const modal = document.getElementById('loanModal');
+        
+        function openLoanModal() {
+            modal.style.display = 'flex';
+        }
+
+        function closeLoanModal() { 
+            modal.style.display = 'none';
+        }
+
+        // Tutup modal kalau user klik area hitam di luar form
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeLoanModal();
             }
         }
     </script>
